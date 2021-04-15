@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "750064447032",
+    "project_id": "flutter-firebase-49d31",
+    "storage_bucket": "flutter-firebase-49d31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750064447032:android:d98d77b1c6b6a227afc0cd",
+        "android_client_info": {
+          "package_name": "com.leinady.assign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750064447032-n8amu212e3stgqsp4dsnm3drrpb2k0ch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKFDguruUZ5GHIbF64Y0XgdzDH7cInf3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750064447032-n8amu212e3stgqsp4dsnm3drrpb2k0ch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
