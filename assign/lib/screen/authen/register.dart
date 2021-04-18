@@ -1,16 +1,16 @@
 import 'package:assign/service/authserv.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
-  //SignIn({Key key}) : super(key: key);
+class Register extends StatefulWidget {
+  //Register({Key key}) : super(key: key);
 
   final Function toggle;
-  SignIn({this.toggle});
+  Register({this.toggle});
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final Authservice _auth = Authservice();
   final _formKey = GlobalKey<FormState>();
 
@@ -25,7 +25,7 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
-        title: Text('Sign in'),
+        title: Text('Sign up to my project'),
         actions: <Widget>[
           TextButton.icon(
               style: TextButton.styleFrom(primary: Colors.black),
@@ -33,7 +33,7 @@ class _SignInState extends State<SignIn> {
                 widget.toggle();
               },
               icon: Icon(Icons.add_circle_outline),
-              label: Text('Register'))
+              label: Text('Sign In'))
         ],
       ),
       body: Container(
@@ -70,13 +70,13 @@ class _SignInState extends State<SignIn> {
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   dynamic result =
-                      await _auth.signInWithEmailAndPassword(email, password);
+                      await _auth.registerWithEmailAndPassword(email, password);
                   if (result == null) {
                     setState(() => error = 'please put email');
                   }
                 }
               },
-              child: Text('Sign In'),
+              child: Text('Sign up'),
             ),
             SizedBox(
               height: 12,
