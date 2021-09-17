@@ -1,6 +1,10 @@
+import 'package:assign/models/Product.dart';
 import 'package:assign/screen/home/components/categories.dart';
+//import 'package:assign/screen/home/components/items_card.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_cube/flutter_cube.dart';
+
+import 'items_card.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -19,26 +23,24 @@ class Body extends StatelessWidget {
           ),
         ),
         Categories(),
-        Container(
-          height: 160,
-          width: 140,
-          decoration: BoxDecoration(
-              color: Colors.blue[100], borderRadius: BorderRadius.circular(20)),
-          child: Cube(onSceneCreated: (Scene scene) {
-            scene.world.add(Object(
-                fileName: 'assets/cude/wheel3d.obj',
-                rotation: Vector3(0, -90, 0)));
-            scene.camera.zoom = 12;
-            scene.world.updateTransform();
-          }),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-          child: Text(
-            'TE-37',
-            style: TextStyle(color: Colors.black),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: GridView.builder(
+              itemCount: products.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.75,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20),
+              itemBuilder: (context, index) => ItemCard(
+                product: products[index],
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
   }
