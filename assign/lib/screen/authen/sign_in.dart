@@ -20,15 +20,16 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.brown[100],
+      backgroundColor: Colors.black45,
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
-        elevation: 0.0,
+        backgroundColor: Colors.black12,
+        elevation: 1,
         title: Text('Sign in'),
         actions: <Widget>[
           TextButton.icon(
-              style: TextButton.styleFrom(primary: Colors.black),
+              style: TextButton.styleFrom(primary: Colors.white),
               onPressed: () {
                 widget.toggle();
               },
@@ -41,18 +42,26 @@ class _SignInState extends State<SignIn> {
         child: Form(
           key: _formKey,
           child: Column(children: <Widget>[
-            SizedBox(
+            Positioned(
+              child: Image.asset('assets/images/Tuning Garage.png'),
+              width: size.width * 0.3,
+            ),
+            TextFieldContainer(
+              child: TextFormField(
+                decoration: InputDecoration(icon: Icon(Icons.person)),
+                validator: (val) => val.isEmpty ? 'Enter an Email' : null,
+                onChanged: (val) {
+                  setState(() => email = val);
+                },
+              ),
+            ),
+            /*  SizedBox(
               height: 20,
-            ),
-            TextFormField(
-              validator: (val) => val.isEmpty ? 'Enter an Email' : null,
-              onChanged: (val) {
-                setState(() => email = val);
-              },
-            ),
-            SizedBox(
+            ),*/
+
+            /* SizedBox(
               height: 20,
-            ),
+            ),*/
             TextFormField(
                 obscureText: true,
                 validator: (val) =>
@@ -88,6 +97,26 @@ class _SignInState extends State<SignIn> {
           ]),
         ),
       ),
+    );
+  }
+}
+
+class TextFieldContainer extends StatelessWidget {
+  final Widget child;
+  const TextFieldContainer({
+    Key key,
+    this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      width: size.width * 0.8,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(29)),
+      child: child,
     );
   }
 }

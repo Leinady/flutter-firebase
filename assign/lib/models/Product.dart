@@ -32,7 +32,7 @@ List<Product> products = [
       size: 8,
       description: 'dummyText',
       cubic: 'assets/cude/wheel3d.obj',
-      color: Color(0xFFD3A984)),
+      color: Colors.red[100]),
   Product(
       id: 2,
       title: "Belt Bag",
@@ -40,7 +40,7 @@ List<Product> products = [
       size: 8,
       description: 'dummyText',
       cubic: 'assets/cude/wheel3d.obj',
-      color: Color(0xFFD3A984)),
+      color: Colors.orange[100]),
   Product(
       id: 2,
       title: "Belt Bag",

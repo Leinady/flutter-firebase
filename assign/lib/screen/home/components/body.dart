@@ -1,9 +1,7 @@
 import 'package:assign/models/Product.dart';
+import 'package:assign/screen/detail/detail_screen.dart';
 import 'package:assign/screen/home/components/categories.dart';
-//import 'package:assign/screen/home/components/items_card.dart';
-
 import 'package:flutter/material.dart';
-
 import 'items_card.dart';
 
 class Body extends StatelessWidget {
@@ -37,6 +35,12 @@ class Body extends StatelessWidget {
                   crossAxisSpacing: 20),
               itemBuilder: (context, index) => ItemCard(
                 product: products[index],
+                press: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DetailsScreen(
+                              product: products[index],
+                            ))),
               ),
             ),
           ),
