@@ -22,6 +22,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      //resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black45,
       appBar: AppBar(
         backgroundColor: Colors.black12,
@@ -41,60 +42,69 @@ class _SignInState extends State<SignIn> {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: Form(
           key: _formKey,
-          child: Column(children: <Widget>[
-            Positioned(
-              child: Image.asset('assets/images/Tuning Garage.png'),
-              width: size.width * 0.3,
-            ),
-            TextFieldContainer(
-              child: TextFormField(
-                decoration: InputDecoration(icon: Icon(Icons.person)),
-                validator: (val) => val.isEmpty ? 'Enter an Email' : null,
-                onChanged: (val) {
-                  setState(() => email = val);
-                },
+          child: SingleChildScrollView(
+            //padding: EdgeInsets.all(32),
+            child: Column(children: <Widget>[
+              Positioned(
+                child: Image.asset('assets/images/Tuning Garage.png'),
+                width: size.width * 0.3,
               ),
-            ),
-            /*  SizedBox(
+              TextFieldContainer(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      icon: Icon(Icons.person), border: InputBorder.none),
+                  validator: (val) => val.isEmpty ? 'Enter an Email' : null,
+                  onChanged: (val) {
+                    setState(() => email = val);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              /* SizedBox(
               height: 20,
             ),*/
-
-            /* SizedBox(
-              height: 20,
-            ),*/
-            TextFormField(
-                obscureText: true,
-                validator: (val) =>
-                    val.length < 6 ? 'Enter a password 6+' : null,
-                onChanged: (val) {
-                  setState(() => password = val);
-                }),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.pink[200],
+              TextFieldContainer(
+                child: TextFormField(
+                    decoration: InputDecoration(
+                        icon: Icon(Icons.lock),
+                        border: InputBorder.none,
+                        suffixIcon: Icon(Icons.visibility)),
+                    obscureText: true,
+                    validator: (val) =>
+                        val.length < 6 ? 'Enter a password 6+' : null,
+                    onChanged: (val) {
+                      setState(() => password = val);
+                    }),
               ),
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  dynamic result =
-                      await _auth.signInWithEmailAndPassword(email, password);
-                  if (result == null) {
-                    setState(() => error = 'please put email');
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.pink[200],
+                ),
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    dynamic result =
+                        await _auth.signInWithEmailAndPassword(email, password);
+                    if (result == null) {
+                      setState(() => error = 'please put email');
+                    }
                   }
-                }
-              },
-              child: Text('Sign In'),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-              error,
-              style: TextStyle(color: Colors.red, fontSize: 15),
-            )
-          ]),
+                },
+                child: Text('Sign In'),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 15),
+              )
+            ]),
+          ),
         ),
       ),
     );

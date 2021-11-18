@@ -1,3 +1,4 @@
+import 'package:assign/screen/authen/sign_in.dart';
 import 'package:assign/service/authserv.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +22,14 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[100],
+      backgroundColor: Colors.black38,
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
+        backgroundColor: Colors.black45,
         elevation: 0.0,
         title: Text('Sign up to my project'),
         actions: <Widget>[
           TextButton.icon(
-              style: TextButton.styleFrom(primary: Colors.black),
+              style: TextButton.styleFrom(primary: Colors.white),
               onPressed: () {
                 widget.toggle();
               },
@@ -44,22 +45,28 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
-            TextFormField(
-              validator: (val) => val.isEmpty ? 'Enter an Email' : null,
-              onChanged: (val) {
-                setState(() => email = val);
-              },
+            TextFieldContainer(
+              child: TextFormField(
+                decoration: InputDecoration(border: InputBorder.none),
+                validator: (val) => val.isEmpty ? 'Enter an Email' : null,
+                onChanged: (val) {
+                  setState(() => email = val);
+                },
+              ),
             ),
             SizedBox(
               height: 20,
             ),
-            TextFormField(
-                obscureText: true,
-                validator: (val) =>
-                    val.length < 6 ? 'Enter a password 6+' : null,
-                onChanged: (val) {
-                  setState(() => password = val);
-                }),
+            TextFieldContainer(
+              child: TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(border: InputBorder.none),
+                  validator: (val) =>
+                      val.length < 6 ? 'Enter a password 6+' : null,
+                  onChanged: (val) {
+                    setState(() => password = val);
+                  }),
+            ),
             SizedBox(
               height: 20,
             ),
@@ -88,6 +95,26 @@ class _RegisterState extends State<Register> {
           ]),
         ),
       ),
+    );
+  }
+}
+
+class TextFieldContainer extends StatelessWidget {
+  final Widget child;
+  const TextFieldContainer({
+    Key key,
+    this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      width: size.width * 0.8,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(29)),
+      child: child,
     );
   }
 }
