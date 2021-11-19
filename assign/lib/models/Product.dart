@@ -21,8 +21,8 @@ List<Product> products = [
       id: 1,
       title: "TE-37",
       price: 1500,
-      size: 12,
-      description: 'dummyText',
+      size: 18,
+      description: dummyText,
       cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFF3D82AE)),
   Product(
@@ -30,7 +30,7 @@ List<Product> products = [
       title: "CE-28",
       price: 1400,
       size: 8,
-      description: 'dummyText',
+      description: dummyText,
       cubic: 'assets/cude/wheel3d.gltf',
       color: Colors.red[100]),
   Product(
@@ -38,7 +38,7 @@ List<Product> products = [
       title: "Belt Bag",
       price: 1200,
       size: 8,
-      description: 'dummyText',
+      description: dummyText,
       cubic: 'assets/cude/wheel3d.gltf',
       color: Colors.orange[100]),
   Product(
@@ -46,7 +46,7 @@ List<Product> products = [
       title: "Belt Bag",
       price: 1200,
       size: 8,
-      description: 'dummyText',
+      description: dummyText,
       cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFFD3A984)),
   Product(
@@ -54,7 +54,7 @@ List<Product> products = [
       title: "Belt Bag",
       price: 1200,
       size: 8,
-      description: 'dummyText',
+      description: dummyText,
       cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFFD3A984)),
   Product(
@@ -62,7 +62,10 @@ List<Product> products = [
       title: "Belt Bag",
       price: 1200,
       size: 8,
-      description: 'dummyText',
+      description: dummyText,
       cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFFD3A984)),
 ];
+
+String dummyText =
+    "The first model was a 15 inch with a startling 3.7kg, thus TE37. This model would be known decades later as the origin of forged sports wheel and is considered one of the masterpieces from Volkracing. Excellent stress variance with a calculated 6 spoke design offering various ranges in sizes and model variations";
