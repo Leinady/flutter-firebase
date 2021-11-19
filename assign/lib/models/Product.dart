@@ -23,7 +23,7 @@ List<Product> products = [
       price: 1500,
       size: 12,
       description: 'dummyText',
-      cubic: 'assets/cude/wheel3d.obj',
+      cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFF3D82AE)),
   Product(
       id: 2,
@@ -31,7 +31,7 @@ List<Product> products = [
       price: 1400,
       size: 8,
       description: 'dummyText',
-      cubic: 'assets/cude/wheel3d.obj',
+      cubic: 'assets/cude/wheel3d.gltf',
       color: Colors.red[100]),
   Product(
       id: 2,
@@ -39,7 +39,7 @@ List<Product> products = [
       price: 1200,
       size: 8,
       description: 'dummyText',
-      cubic: 'assets/cude/wheel3d.obj',
+      cubic: 'assets/cude/wheel3d.gltf',
       color: Colors.orange[100]),
   Product(
       id: 2,
@@ -47,7 +47,7 @@ List<Product> products = [
       price: 1200,
       size: 8,
       description: 'dummyText',
-      cubic: 'assets/cude/wheel3d.obj',
+      cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFFD3A984)),
   Product(
       id: 2,
@@ -55,7 +55,7 @@ List<Product> products = [
       price: 1200,
       size: 8,
       description: 'dummyText',
-      cubic: 'assets/cude/wheel3d.obj',
+      cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFFD3A984)),
   Product(
       id: 2,
@@ -63,6 +63,6 @@ List<Product> products = [
       price: 1200,
       size: 8,
       description: 'dummyText',
-      cubic: 'assets/cude/wheel3d.obj',
+      cubic: 'assets/cude/wheel3d.gltf',
       color: Color(0xFFD3A984)),
 ];

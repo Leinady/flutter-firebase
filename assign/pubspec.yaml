@@ -34,6 +34,7 @@ dependencies:
   provider: ^6.0.0
   flutter_cube: ^0.1.1
   flutter_svg: ^0.23.0+1
+  model_viewer: ^0.8.1
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +56,8 @@ flutter:
     - assets/images/wheel1.jpg
     - assets/images/Tuning Garage.png
     - assets/cude/wheel3d.obj
+    - assets/cude/wheel3d.mtl
+    - assets/cude/wheel3d.gltf
   #  - assets/cude/wheel_color.obj
     - assets/cude/wheel_color.blend
   #   - images/a_dot_ham.jpeg

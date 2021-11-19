@@ -2,6 +2,7 @@ import 'package:assign/models/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:assign/screen/detail/detail_screen.dart';
 import 'package:flutter_cube/flutter_cube.dart';
+import 'package:model_viewer/model_viewer.dart';
 
 class Bodys extends StatelessWidget {
   final Product product;
@@ -56,7 +57,28 @@ class Bodys extends StatelessWidget {
                                         fontWeight: FontWeight.bold)),
                           ])),
                           Expanded(
-                            child: Image.asset('assets/images/wheel1.jpg'),
+                            //child: Image.asset('assets/images/wheel1.jpg'),
+                            child: Container(
+                              height: 160,
+                              width: 140,
+                              decoration: BoxDecoration(
+                                  color: product.color,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: ModelViewer(
+                                src: product.cubic,
+                                backgroundColor: product.color,
+                                // alt: "A 3D model of an astronaut",
+                                ar: false,
+                                autoRotate: true,
+                                cameraControls: true,
+                              ), /*Cube(onSceneCreated: (Scene scene) {
+                                scene.world.add(Object(
+                                    fileName: product.cubic,
+                                    rotation: Vector3(0, -90, 0)));
+                                scene.camera.zoom = 12;
+                                scene.world.updateTransform();
+                              }),*/
+                            ),
                           ),
                         ],
                       )

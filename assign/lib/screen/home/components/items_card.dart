@@ -1,6 +1,7 @@
 import 'package:assign/models/Product.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cube/flutter_cube.dart';
+//import 'package:flutter_cube/flutter_cube.dart';
+import 'package:model_viewer/model_viewer.dart';
 
 class ItemCard extends StatelessWidget {
   final Product product;
@@ -23,13 +24,19 @@ class ItemCard extends StatelessWidget {
             width: 140,
             decoration: BoxDecoration(
                 color: product.color, borderRadius: BorderRadius.circular(20)),
-            child: Cube(onSceneCreated: (Scene scene) {
+            child: ModelViewer(
+              src: product.cubic,
+              backgroundColor: product.color,
+              // alt: "A 3D model of an astronaut",
+              ar: false,
+              autoRotate: true,
+              cameraControls: true,
+            ), /*Cube(onSceneCreated: (Scene scene) {
               scene.world.add(Object(
-                  fileName: 'assets/cude/wheel3d.obj',
-                  rotation: Vector3(0, -90, 0)));
+                  fileName: product.cubic, rotation: Vector3(0, -90, 0)));
               scene.camera.zoom = 12;
               scene.world.updateTransform();
-            }),
+            }),*/
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
