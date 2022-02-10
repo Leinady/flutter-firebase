@@ -31,7 +31,7 @@ List<Product> products = [
       price: 1400,
       size: 8,
       description: dummyText,
-      cubic: 'assets/cude/wheel3d.gltf',
+      cubic: 'assets/cude/Volk.gltf',
       color: Colors.red[100]),
   Product(
       id: 2,
@@ -39,7 +39,7 @@ List<Product> products = [
       price: 1200,
       size: 8,
       description: dummyText,
-      cubic: 'assets/cude/wheel3d.gltf',
+      cubic: 'assets/cude/Volk.gltf',
       color: Colors.orange[100]),
   Product(
       id: 2,

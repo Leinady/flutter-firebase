@@ -1,4 +1,5 @@
 import 'package:assign/models/Product.dart';
+import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:assign/screen/home/components/body.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,6 +20,7 @@ class DetailsScreen extends StatelessWidget {
   }
 
   AppBar buildAppBar(BuildContext context) {
+    var index;
     return AppBar(
       backgroundColor: product.color,
       elevation: 0,
@@ -28,11 +30,6 @@ class DetailsScreen extends StatelessWidget {
         color: Colors.black,
       ),
       actions: <Widget>[
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.add_shopping_cart),
-          color: Colors.black,
-        ),
         IconButton(
           onPressed: () {},
           icon: Icon(Icons.search),

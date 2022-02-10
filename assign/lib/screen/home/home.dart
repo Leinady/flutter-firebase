@@ -1,4 +1,5 @@
 //import 'dart:html';
+import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/service/authserv.dart';
 import 'package:flutter/material.dart';
 import 'package:assign/screen/home/components/body.dart';
@@ -23,7 +24,12 @@ class Home extends StatelessWidget {
                 icon: Icon(Icons.arrow_back),
                 color: Colors.black),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CartScreen()),
+                );
+              },
               icon: Icon(Icons.add_shopping_cart),
               color: Colors.black,
             ),

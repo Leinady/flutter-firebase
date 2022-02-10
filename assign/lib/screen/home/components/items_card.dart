@@ -10,6 +10,7 @@ class ItemCard extends StatelessWidget {
     Key key,
     this.product,
     this.press,
+    gridDelegate,
   }) : super(key: key);
 
   @override

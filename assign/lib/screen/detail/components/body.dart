@@ -1,4 +1,5 @@
 import 'package:assign/models/Product.dart';
+import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/detail/components/Description.dart';
 import 'package:assign/screen/detail/components/productTitle_3d.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,6 +52,48 @@ class Bodys extends StatelessWidget {
                       ),
                       Description(product: product),
                       CartCounter(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              height: 50,
+                              width: 58,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: product.color),
+                                  borderRadius: BorderRadius.circular(18)),
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CartScreen()));
+                                  },
+                                  icon: Icon(Icons.shopping_cart_outlined)),
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 50,
+                                child: FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18)),
+                                  color: product.color,
+                                  onPressed: () {},
+                                  child: Text(
+                                    "Buy".toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
