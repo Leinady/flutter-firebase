@@ -33,38 +33,17 @@ List<Product> products = [
       description: dummyText,
       cubic: 'assets/cude/Volk.gltf',
       color: Colors.red[100]),
+];
+
+List<Product> productsh = [
   Product(
-      id: 2,
-      title: "Belt Bag",
-      price: 1200,
-      size: 8,
+      id: 1,
+      title: "Shock up 1",
+      price: 500,
+      size: 5,
       description: dummyText,
-      cubic: 'assets/cude/Volk.gltf',
-      color: Colors.orange[100]),
-  Product(
-      id: 2,
-      title: "Belt Bag",
-      price: 1200,
-      size: 8,
-      description: dummyText,
-      cubic: 'assets/cude/wheel3d.gltf',
-      color: Color(0xFFD3A984)),
-  Product(
-      id: 2,
-      title: "Belt Bag",
-      price: 1200,
-      size: 8,
-      description: dummyText,
-      cubic: 'assets/cude/wheel3d.gltf',
-      color: Color(0xFFD3A984)),
-  Product(
-      id: 2,
-      title: "Belt Bag",
-      price: 1200,
-      size: 8,
-      description: dummyText,
-      cubic: 'assets/cude/wheel3d.gltf',
-      color: Color(0xFFD3A984)),
+      cubic: 'assets/cude/pistao_hidraulico.gltf',
+      color: Colors.red[100]),
 ];
 
 String dummyText =

@@ -59,6 +59,8 @@ flutter:
     - assets/cude/wheel3d.mtl
     - assets/cude/wheel3d.gltf
     - assets/cude/Volk.gltf
+    - assets/cude/pistao_hidraulico.gltf
+    - assets/icons/Trash.svg
   #  - assets/cude/wheel_color.obj
     - assets/cude/wheel_color.blend
   #   - images/a_dot_ham.jpeg

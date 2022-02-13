@@ -1,12 +1,16 @@
+import 'package:assign/models/Product.dart';
 import 'package:assign/models/cart.dart';
 import "package:flutter/material.dart";
+import 'package:model_viewer/model_viewer.dart';
 
 class Cartitem extends StatelessWidget {
   const Cartitem({
     Key key,
     this.cart,
+    this.product,
   }) : super(key: key);
 
+  final Product product;
   final Cart cart;
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,14 @@ class Cartitem extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15)),
-                child: Image.asset("assets/images/wheel1.jpg"),
+                // child: Image.asset("assets/images/wheel1.jpg"),
+                child: ModelViewer(
+                  src: product.cubic,
+                  backgroundColor: product.color,
+                  ar: false,
+                  autoRotate: true,
+                  cameraControls: true,
+                ),
               ),
             )),
         SizedBox(
@@ -37,7 +48,7 @@ class Cartitem extends StatelessWidget {
                   style: TextStyle(fontSize: 16, color: Colors.black),
                   children: [
                     TextSpan(
-                        text: " x${cart.numOfItem}",
+                        text: " x${cart.numofItem}",
                         style: TextStyle(color: Colors.red))
                   ]))
             ],

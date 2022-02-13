@@ -1,3 +1,7 @@
+// import 'dart:js';
+import 'package:assign/screen/cart/cart_screen.dart';
+import 'package:assign/screen/home/home.dart';
+import 'package:assign/screen/parts/shockup_screen.dart';
 import 'package:flutter/material.dart';
 
 class Categories extends StatefulWidget {
@@ -28,6 +32,28 @@ class _CategoriesState extends State<Categories> {
       onTap: () {
         setState(() {
           selectIndex = index;
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          }
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Shockupscreen()),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartScreen()),
+            );
+          } else if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartScreen()),
+            );
+          }
         });
       },
       child: Padding(

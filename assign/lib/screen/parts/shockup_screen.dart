@@ -1,28 +1,28 @@
-//import 'dart:html';
 import 'package:assign/screen/cart/cart_screen.dart';
-import 'package:assign/service/authserv.dart';
+import 'package:assign/screen/parts/components/body.dart';
 import 'package:flutter/material.dart';
-import 'package:assign/screen/home/components/body.dart';
 
-class Home extends StatelessWidget {
-  //const home({Key key}) : super(key: key);
+class Shockupscreen extends StatelessWidget {
+  const Shockupscreen({Key key}) : super(key: key);
 
-  final Authservice _auth = Authservice();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Body(),
+        body: BodyS(),
         appBar: AppBar(
-          title: Text('Home page'),
+          // title: Text('Home page'),
           backgroundColor: Colors.white,
           elevation: 1,
           actions: <Widget>[
             IconButton(
-                onPressed: () async {
-                  await _auth.signOut();
-                },
-                icon: Icon(Icons.backspace_rounded),
-                color: Colors.black),
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                );
+              },
+              icon: Icon(Icons.arrow_back),
+              color: Colors.black,
+            ),
             IconButton(
               onPressed: () {
                 Navigator.push(

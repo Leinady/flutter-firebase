@@ -1,18 +1,17 @@
-import 'package:flutter/material.dart';
-
+import 'package:assign/screen/detail/components/body.dart';
 import 'Product.dart';
 
 class Cart {
   final Product product;
-  final int numOfItem;
+  //final int numOfItem;
+  final CartCounter numofItem;
 
-  Cart({this.product, this.numOfItem});
+  Cart(
+    this.product,
+    this.numofItem,
+  );
 }
 
 // Demo data for our cart
 
-List<Cart> demoCarts = [
-  Cart(product: products[0], numOfItem: 2),
-  Cart(product: products[1], numOfItem: 1),
-  Cart(product: products[3], numOfItem: 1),
-];
+List<Cart> demoCarts = [];

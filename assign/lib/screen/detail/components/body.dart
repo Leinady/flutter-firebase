@@ -1,16 +1,24 @@
 import 'package:assign/models/Product.dart';
+import 'package:assign/models/cart.dart';
+import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/detail/components/Description.dart';
 import 'package:assign/screen/detail/components/productTitle_3d.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Bodys extends StatelessWidget {
   final Product product;
+  final CartCounter numofItem;
+  final Cart cart;
 
-  const Bodys({Key key, this.product}) : super(key: key);
+  const Bodys({Key key, this.product, this.numofItem, this.cart})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    //Cartprovider provider;
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -51,7 +59,7 @@ class Bodys extends StatelessWidget {
                         ],
                       ),
                       Description(product: product),
-                      CartCounter(),
+                      CartCounter(cart: cart),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Row(
@@ -65,6 +73,7 @@ class Bodys extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(18)),
                               child: IconButton(
                                   onPressed: () {
+                                    demoCarts.add(Cart(product, numofItem));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -108,7 +117,7 @@ class Bodys extends StatelessWidget {
 }
 
 class CartCounter extends StatefulWidget {
-  CartCounter({Key key}) : super(key: key);
+  CartCounter({Key key, Cart cart}) : super(key: key);
 
   @override
   _CartCounterState createState() => _CartCounterState();
@@ -116,6 +125,7 @@ class CartCounter extends StatefulWidget {
 
 class _CartCounterState extends State<CartCounter> {
   int numofItem = 1;
+
   @override
   Widget build(BuildContext context) {
     return Row(
