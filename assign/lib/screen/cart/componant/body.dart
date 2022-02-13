@@ -1,8 +1,6 @@
 import 'package:assign/models/Product.dart';
 import 'package:assign/models/cart.dart';
-import 'package:assign/screen/home/components/items_card.dart';
 import 'package:flutter/material.dart';
-import 'package:model_viewer/model_viewer.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'cart_item.dart';
@@ -35,7 +33,7 @@ class _BodyCState extends State<BodyC> {
                 child: Row(
                   children: [
                     Spacer(),
-                    SvgPicture.asset("assets/images/Trash.svg")
+                    SvgPicture.asset("assets/icons/Trash.svg")
                   ],
                 ),
               ),
@@ -44,7 +42,10 @@ class _BodyCState extends State<BodyC> {
                   demoCarts.removeAt(index);
                 });
               },
-              child: Cartitem(cart: demoCarts[index])),
+              child: Cartitem(
+                cart: demoCarts[index],
+                product: products[index],
+              )),
         ),
       ),
     );
