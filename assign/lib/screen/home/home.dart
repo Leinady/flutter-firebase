@@ -1,5 +1,6 @@
 //import 'dart:html';
 import 'package:assign/screen/cart/cart_screen.dart';
+import 'package:assign/screen/proflie/profile_screen.dart';
 import 'package:assign/service/authserv.dart';
 import 'package:flutter/material.dart';
 import 'package:assign/screen/home/components/body.dart';
@@ -31,6 +32,17 @@ class Home extends StatelessWidget {
                 );
               },
               icon: Icon(Icons.add_shopping_cart),
+              color: Colors.black,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CompleteProfileScreen()),
+                );
+              },
+              icon: Icon(Icons.person_outline),
               color: Colors.black,
             ),
             SizedBox()

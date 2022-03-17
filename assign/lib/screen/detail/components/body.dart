@@ -73,7 +73,7 @@ class Bodys extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(18)),
                               child: IconButton(
                                   onPressed: () {
-                                    demoCarts.add(Cart(product, numofItem));
+                                    demoCarts.add(Cart(product, 2));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -171,3 +171,15 @@ class _CartCounterState extends State<CartCounter> {
     );
   }
 }
+
+// class Counter {
+//   int value = 0;
+
+//   increment() => value++;
+
+//   decrement() => value--;
+
+//   @override
+//   // TODO: implement props
+//   List<Object> get props => [value];
+// }

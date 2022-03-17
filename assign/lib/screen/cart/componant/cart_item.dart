@@ -12,6 +12,7 @@ class Cartitem extends StatelessWidget {
 
   final Product product;
   final Cart cart;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -35,22 +36,27 @@ class Cartitem extends StatelessWidget {
               ),
             )),
         SizedBox(
+          width: 15,
+        ),
+        SizedBox(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 cart.product.title,
                 style: TextStyle(fontSize: 16, color: Colors.black),
               ),
-              SizedBox(height: 5),
+              SizedBox(
+                height: 5,
+              ),
               Text.rich(TextSpan(
                   text: "\$${cart.product.price}",
                   style: TextStyle(fontSize: 16, color: Colors.black),
                   children: [
                     TextSpan(
-                        text: " x${cart.numofItem}",
+                        text: " x${cart.numOfItem}",
                         style: TextStyle(color: Colors.red))
-                  ]))
+                  ])),
             ],
           ),
         )

@@ -1,15 +1,17 @@
 import 'package:assign/models/Product.dart';
+import 'package:assign/models/cart.dart';
 import 'package:assign/screen/home/components/body.dart';
 import 'package:assign/screen/home/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'componant/body.dart';
+import 'componant/cart_checkout.dart';
 
 class CartScreen extends StatelessWidget {
   static String routeName = "/cart";
   final Product product;
-
-  const CartScreen({Key key, this.product}) : super(key: key);
+  final Cart cart;
+  const CartScreen({Key key, this.product, this.cart}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,73 +45,10 @@ class CartScreen extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
           Text(
-            "${products.length} item ",
+            "${demoCarts.length} item ",
             style: Theme.of(context).textTheme.caption,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CheckOut extends StatelessWidget {
-  const CheckOut({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //height: 174,
-      //  color: Colors.blue,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(0, -15),
-              blurRadius: 20,
-              color: Color(0xFFDADADA).withOpacity(0.15),
-            )
-          ]),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text.rich(
-                    TextSpan(text: "Total:\n", children: [
-                      TextSpan(
-                          text: "\$200",
-                          style: TextStyle(fontSize: 16, color: Colors.black)),
-                    ]),
-                  ),
-                  SizedBox(
-                      width: 190,
-                      height: 50,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          primary: Colors.white,
-                          backgroundColor: Colors.orange,
-                        ),
-                        onPressed: () {},
-                        child: Text("Check out"),
-                      )),
-                ],
-              )
-            ],
-          ),
-        ),
       ),
     );
   }
