@@ -1,5 +1,7 @@
 import 'package:assign/screen/authen/sign_in.dart';
 import 'package:assign/service/authserv.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -18,6 +20,7 @@ class _RegisterState extends State<Register> {
   String email = '';
   String password = '';
   String error = '';
+  String role = '';
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +79,19 @@ class _RegisterState extends State<Register> {
               ),
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  dynamic result =
-                      await _auth.registerWithEmailAndPassword(email, password);
+                  dynamic result = await _auth.registerWithEmailAndPassword(
+                      email, password, role);
+                  // User user = FirebaseAuth.instance.currentUser;
+
+                  // await FirebaseFirestore.instance
+                  //     .collection("users")
+                  //     .doc(user.uid)
+                  //     .set({
+                  //   'uid': user.uid,
+                  //   'email': email,
+                  //   'password': password,
+                  //   'role': 'user',
+                  // });
                   if (result == null) {
                     setState(() => error = 'please put email');
                   }

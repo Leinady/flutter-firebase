@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(create: (_) => CartProvider(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

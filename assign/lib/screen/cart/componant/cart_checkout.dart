@@ -67,11 +67,12 @@ class CheckOut extends StatelessWidget {
                           backgroundColor: Colors.orange,
                         ),
                         onPressed: () async {
-                          formKey.currentState.save();
-                          await _basketCollection.add({
-                            "product": cart.product,
-                            "Number of item": cart.numOfItem,
-                          });
+                          // formKey.currentState.save();
+                          // await _basketCollection.add({
+                          //   "product": cart.product,
+                          //   "Number of item": cart.numOfItem,
+                          // });
+                          print('${cart}');
                         },
                         child: Text("Check out"),
                       )),

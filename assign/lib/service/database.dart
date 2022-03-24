@@ -4,16 +4,15 @@ class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
 
-  final CollectionReference devilCollect =
-      FirebaseFirestore.instance.collection("Devil");
+  // final CollectionReference users =
+  //     FirebaseFirestore.instance.collection("Users");
 
-  final CollectionReference WheelCollect = 
+  final CollectionReference WheelCollect =
       FirebaseFirestore.instance.collection("Wheel");
 
-  Future updateUserData(String name, int number) async {
-    return await devilCollect.doc(uid).set({
-      'names': name,
-      'number': number,
-    });
+  Future updateUserData(String email) async {
+    // return await users.add({
+    //   'email': email,
+    // });
   }
 }

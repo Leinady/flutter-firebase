@@ -1,5 +1,6 @@
 import 'package:assign/models/user.dart';
 import 'package:assign/service/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Authservice {
@@ -41,12 +42,23 @@ class Authservice {
   }
 
   //register in with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(
+      String email, String password, String role) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential result = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          // ignore: missing_return
+          .then((value) {
+        User user = FirebaseAuth.instance.currentUser;
+        FirebaseFirestore.instance.collection('user').doc(user.uid).set({
+          'uid': user.uid,
+          "email": email,
+          'password': password,
+          'role': role,
+        });
+      });
       User user = result.user;
-      await DatabaseService(uid: user.uid).updateUserData('demon', 150);
+
       return _userFromFirebase(user);
     } catch (e) {
       print(e.toString());

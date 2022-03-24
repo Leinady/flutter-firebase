@@ -1,9 +1,11 @@
 import 'package:assign/models/Product.dart';
 import 'package:assign/models/cart.dart';
+import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/home/components/body.dart';
 import 'package:assign/screen/home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'componant/body.dart';
 import 'componant/cart_checkout.dart';
 
@@ -15,11 +17,13 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: newMethod(context),
-      body: BodyC(product: product),
-      bottomNavigationBar: CheckOut(),
-    );
+    return Consumer<CartProvider>(builder: (context, value, child) {
+      return Scaffold(
+        appBar: newMethod(context),
+        body: Text(value.items.toString()),
+        bottomNavigationBar: CheckOut(),
+      );
+    });
   }
 
   AppBar newMethod(BuildContext context) {

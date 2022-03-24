@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class Bodys extends StatelessWidget {
   final Product product;
-  final CartCounter numofItem;
+  final int numofItem;
   final Cart cart;
 
   const Bodys({Key key, this.product, this.numofItem, this.cart})
@@ -59,7 +59,7 @@ class Bodys extends StatelessWidget {
                         ],
                       ),
                       Description(product: product),
-                      CartCounter(cart: cart),
+                      CartCounter(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Row(
@@ -71,16 +71,24 @@ class Bodys extends StatelessWidget {
                               decoration: BoxDecoration(
                                   border: Border.all(color: product.color),
                                   borderRadius: BorderRadius.circular(18)),
-                              child: IconButton(
-                                  onPressed: () {
-                                    demoCarts.add(Cart(product, 2));
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CartScreen()));
-                                  },
-                                  icon: Icon(Icons.shopping_cart_outlined)),
+                              child: Consumer<CartProvider>(
+                                builder: (context, cartprovider, child) =>
+                                    IconButton(
+                                        onPressed: () {
+                                          //demoCarts.add(Cart(product, 2));
+                                          cartprovider.addItem(Productmod(
+                                              product.title,
+                                              product.price,
+                                              numofItem));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CartScreen()));
+                                        },
+                                        icon:
+                                            Icon(Icons.shopping_cart_outlined)),
+                              ),
                             ),
                             Expanded(
                               child: SizedBox(
@@ -128,31 +136,34 @@ class _CartCounterState extends State<CartCounter> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        buildOutlineButton(
-          icon: Icons.remove,
-          press: () {
-            if (numofItem >= 1) {
-              setState(() {
-                numofItem--;
-              });
-            }
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Text(numofItem.toString().padLeft(2, "0"),
-              style: Theme.of(context).textTheme.headline6),
-        ),
-        buildOutlineButton(
-            icon: Icons.add,
+    return Consumer<CartProvider>(
+      builder: (context, cartprovider, child) => Row(
+        children: <Widget>[
+          buildOutlineButton(
+            icon: Icons.remove,
             press: () {
-              setState(() {
-                numofItem++;
-              });
-            }),
-      ],
+              if (numofItem >= 1) {
+                setState(() {
+                  numofItem--;
+                  //cartprovider.addItem(item);
+                });
+              }
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Text(numofItem.toString().padLeft(2, "0"),
+                style: Theme.of(context).textTheme.headline6),
+          ),
+          buildOutlineButton(
+              icon: Icons.add,
+              press: () {
+                setState(() {
+                  numofItem++;
+                });
+              }),
+        ],
+      ),
     );
   }
 
