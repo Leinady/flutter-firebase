@@ -1,5 +1,6 @@
 import 'package:assign/models/Product.dart';
 import 'package:assign/models/cart.dart';
+import 'package:assign/route/cartprovider.dart';
 import "package:flutter/material.dart";
 import 'package:model_viewer/model_viewer.dart';
 
@@ -10,8 +11,8 @@ class Cartitem extends StatelessWidget {
     this.product,
   }) : super(key: key);
 
-  final Product product;
-  final Cart cart;
+  final Productmod product;
+  final dynamic cart;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class Cartitem extends StatelessWidget {
                 // child: Image.asset("assets/images/wheel1.jpg"),
                 child: ModelViewer(
                   src: product.cubic,
-                  backgroundColor: product.color,
+                  backgroundColor: Colors.white,
                   ar: false,
                   autoRotate: true,
                   cameraControls: true,
@@ -43,18 +44,21 @@ class Cartitem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                cart.product.title,
+                // cart.product.title,
+                product.productName,
                 style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               SizedBox(
                 height: 5,
               ),
               Text.rich(TextSpan(
-                  text: "\$${cart.product.price}",
+                  // text: "\$${cart.product.price}",
+                  text: "\$${product.price}",
                   style: TextStyle(fontSize: 16, color: Colors.black),
                   children: [
                     TextSpan(
-                        text: " x${cart.numOfItem}",
+                        // text: " x${cart.numOfItem}",
+                        text: " x${product.qty}",
                         style: TextStyle(color: Colors.red))
                   ])),
             ],

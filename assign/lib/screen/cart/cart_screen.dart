@@ -20,7 +20,27 @@ class CartScreen extends StatelessWidget {
     return Consumer<CartProvider>(builder: (context, value, child) {
       return Scaffold(
         appBar: newMethod(context),
-        body: Text(value.items.toString()),
+        body: BodyC(),
+
+        // ListView.builder(
+        //   ///////////////////////////////
+        //   shrinkWrap: true,
+        //   itemCount: value.items.length,
+        //   itemBuilder: (context, index) {
+        //     return Container(
+        //       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        //       child: Row(
+        //         children: [
+        //           Text('${value.items[index].productName}'),
+        //           Spacer(),
+        //           Text('\$ ${value.items[index].price}'),
+        //           Spacer(),
+        //           Text('${value.items[index].qty}')
+        //         ],
+        //       ),
+        //     );
+        //   },
+        // ),
         bottomNavigationBar: CheckOut(),
       );
     });
@@ -48,10 +68,12 @@ class CartScreen extends StatelessWidget {
             "Your Cart",
             style: TextStyle(color: Colors.black),
           ),
-          Text(
-            "${demoCarts.length} item ",
-            style: Theme.of(context).textTheme.caption,
-          ),
+          Consumer<CartProvider>(builder: (context, provider, child) {
+            return Text(
+              "${provider.getItemCount()} item ",
+              style: Theme.of(context).textTheme.caption,
+            );
+          }),
         ],
       ),
     );

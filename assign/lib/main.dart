@@ -1,4 +1,5 @@
 import 'package:assign/models/user.dart';
+import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/wrapper.dart';
 import 'package:assign/service/authserv.dart';
@@ -9,7 +10,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ChangeNotifierProvider(create: (_) => CartProvider(), child: MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,9 +20,17 @@ class MyApp extends StatelessWidget {
     return StreamProvider<CustomClassName>.value(
       value: Authservice().user,
       initialData: null,
-      child: MaterialApp(
-        home: Wrapper(),
-        debugShowCheckedModeBanner: false,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => CartProvider(),
+          ),
+          ChangeNotifierProvider(create: (_) => ItemProvider())
+        ],
+        child: MaterialApp(
+          home: Wrapper(),
+          debugShowCheckedModeBanner: false,
+        ),
       ),
     );
   }

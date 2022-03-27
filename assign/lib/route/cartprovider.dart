@@ -31,15 +31,25 @@ class CartProvider extends ChangeNotifier {
   int getItemCount() {
     return items.length;
   }
+
+  int getAllItemCount() {
+    int count = 0;
+    items.forEach((item) {
+      item.qty += count;
+    });
+
+    return count;
+  }
 }
 
 class Productmod {
   // model
   final String productName;
   final int price;
-  final int qty;
+  final Object cubic;
+  int qty;
 
-  Productmod(this.productName, this.price, this.qty);
+  Productmod(this.productName, this.price, this.qty, {this.cubic});
 
   @override
   String toString() {

@@ -1,7 +1,9 @@
 import 'package:assign/models/Product.dart';
 import 'package:assign/models/cart.dart';
+import 'package:assign/route/cartprovider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CheckOut extends StatelessWidget {
   final Product product;
@@ -43,41 +45,44 @@ class CheckOut extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text.rich(
-                    TextSpan(text: "Total:\n", children: [
-                      TextSpan(
-                          // onEnter: (Product product) {
-                          //   myCart.product = product;
-                          // };
-                          text: "\$ 200",
-                          style: TextStyle(fontSize: 16, color: Colors.black)),
-                    ]),
-                  ),
-                  SizedBox(
-                      width: 190,
-                      height: 50,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          primary: Colors.white,
-                          backgroundColor: Colors.orange,
-                        ),
-                        onPressed: () async {
-                          // formKey.currentState.save();
-                          // await _basketCollection.add({
-                          //   "product": cart.product,
-                          //   "Number of item": cart.numOfItem,
-                          // });
-                          print('${cart}');
-                        },
-                        child: Text("Check out"),
-                      )),
-                ],
-              )
+              Consumer<CartProvider>(builder: (context, provider, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text.rich(
+                      TextSpan(text: "Total:\n", children: [
+                        TextSpan(
+                            // onEnter: (Product product) {
+                            //   myCart.product = product;
+                            // };
+                            text: "\$ ${provider.getTotalPrice()}",
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.black)),
+                      ]),
+                    ),
+                    SizedBox(
+                        width: 190,
+                        height: 50,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            primary: Colors.white,
+                            backgroundColor: Colors.orange,
+                          ),
+                          onPressed: () async {
+                            // formKey.currentState.save();
+                            // await _basketCollection.add({
+                            //   "product": cart.product,
+                            //   "Number of item": cart.numOfItem,
+                            // });
+                            print('${cart}');
+                          },
+                          child: Text("Check out"),
+                        )),
+                  ],
+                );
+              })
             ],
           ),
         ),

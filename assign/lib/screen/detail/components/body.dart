@@ -1,5 +1,6 @@
 import 'package:assign/models/Product.dart';
 import 'package:assign/models/cart.dart';
+import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/detail/components/Description.dart';
@@ -8,13 +9,67 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Bodys extends StatelessWidget {
+class Bodys extends StatefulWidget {
   final Product product;
   final int numofItem;
   final Cart cart;
 
   const Bodys({Key key, this.product, this.numofItem, this.cart})
       : super(key: key);
+
+  @override
+  State<Bodys> createState() => _BodysState();
+}
+
+class _BodysState extends State<Bodys> {
+  int itemCount = 1;
+  SizedBox buildOutlineButton({IconData icon, Function press}) {
+    return SizedBox(
+      width: 40,
+      height: 32,
+      child: OutlinedButton(
+        style: ElevatedButton.styleFrom(
+          shape: CircleBorder(),
+          padding: EdgeInsets.zero,
+        ),
+        onPressed: press,
+        child: Icon(icon),
+      ),
+    );
+  }
+
+  Consumer CartCounter() {
+    return Consumer<CartProvider>(
+      builder: (context, cartprovider, child) => Row(
+        children: <Widget>[
+          buildOutlineButton(
+            icon: Icons.remove,
+            press: () {
+              if (itemCount >= 1) {
+                setState(() {
+                  itemCount--;
+                });
+              }
+            },
+          ),
+          Consumer<ItemProvider>(builder: (context, itemProvider, child) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Text(itemCount.toString().padLeft(2, "0"),
+                  style: Theme.of(context).textTheme.headline6),
+            );
+          }),
+          buildOutlineButton(
+              icon: Icons.add,
+              press: () {
+                setState(() {
+                  itemCount++;
+                });
+              }),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +103,7 @@ class Bodys extends StatelessWidget {
                                 children: [
                                   TextSpan(text: "Size\n"),
                                   TextSpan(
-                                      text: "${product.size} inch",
+                                      text: "${widget.product.size} inch",
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline5
@@ -58,7 +113,7 @@ class Bodys extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Description(product: product),
+                      Description(product: widget.product),
                       CartCounter(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -69,17 +124,21 @@ class Bodys extends StatelessWidget {
                               height: 50,
                               width: 58,
                               decoration: BoxDecoration(
-                                  border: Border.all(color: product.color),
+                                  border:
+                                      Border.all(color: widget.product.color),
                                   borderRadius: BorderRadius.circular(18)),
                               child: Consumer<CartProvider>(
                                 builder: (context, cartprovider, child) =>
                                     IconButton(
                                         onPressed: () {
                                           //demoCarts.add(Cart(product, 2));
+
+                                          print(widget.product.cubic);
                                           cartprovider.addItem(Productmod(
-                                              product.title,
-                                              product.price,
-                                              numofItem));
+                                              widget.product.title,
+                                              widget.product.price,
+                                              itemCount,
+                                              cubic: widget.product.cubic));
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -96,7 +155,7 @@ class Bodys extends StatelessWidget {
                                 child: FlatButton(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18)),
-                                  color: product.color,
+                                  color: widget.product.color,
                                   onPressed: () {},
                                   child: Text(
                                     "Buy".toUpperCase(),
@@ -114,7 +173,7 @@ class Bodys extends StatelessWidget {
                     ],
                   ),
                 ),
-                ProductTitlewith3d(product: product)
+                ProductTitlewith3d(product: widget.product)
               ],
             ),
           )
@@ -123,74 +182,3 @@ class Bodys extends StatelessWidget {
     );
   }
 }
-
-class CartCounter extends StatefulWidget {
-  CartCounter({Key key, Cart cart}) : super(key: key);
-
-  @override
-  _CartCounterState createState() => _CartCounterState();
-}
-
-class _CartCounterState extends State<CartCounter> {
-  int numofItem = 1;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<CartProvider>(
-      builder: (context, cartprovider, child) => Row(
-        children: <Widget>[
-          buildOutlineButton(
-            icon: Icons.remove,
-            press: () {
-              if (numofItem >= 1) {
-                setState(() {
-                  numofItem--;
-                  //cartprovider.addItem(item);
-                });
-              }
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Text(numofItem.toString().padLeft(2, "0"),
-                style: Theme.of(context).textTheme.headline6),
-          ),
-          buildOutlineButton(
-              icon: Icons.add,
-              press: () {
-                setState(() {
-                  numofItem++;
-                });
-              }),
-        ],
-      ),
-    );
-  }
-
-  SizedBox buildOutlineButton({IconData icon, Function press}) {
-    return SizedBox(
-      width: 40,
-      height: 32,
-      child: OutlinedButton(
-        style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
-          padding: EdgeInsets.zero,
-        ),
-        onPressed: press,
-        child: Icon(icon),
-      ),
-    );
-  }
-}
-
-// class Counter {
-//   int value = 0;
-
-//   increment() => value++;
-
-//   decrement() => value--;
-
-//   @override
-//   // TODO: implement props
-//   List<Object> get props => [value];
-// }
