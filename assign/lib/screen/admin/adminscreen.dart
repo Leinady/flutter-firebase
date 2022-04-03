@@ -22,6 +22,7 @@ class _AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           title: Text('Admin page'),
           backgroundColor: Colors.black,
@@ -33,98 +34,115 @@ class _AdminScreenState extends State<AdminScreen> {
                 },
                 icon: Icon(Icons.backspace_rounded),
                 color: Colors.white),
+            IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.data_saver_on),
+                color: Colors.white),
           ]),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Welcome Admin"),
-          SizedBox(
-            height: 50,
-          ),
-          TextFormField(
-            controller: emailController,
-            decoration: InputDecoration(
-              hintText: "Email",
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              String userEmail = emailController.text.trim();
-
-              final QuerySnapshot snap = await FirebaseFirestore.instance
-                  .collection('users')
-                  .where('email', isEqualTo: userEmail)
-                  .get();
-              setState(() {
-                email = userEmail;
-                uid = snap.docs[0]['uid'];
-                role = snap.docs[0]['role'];
-                password = snap.docs[0]['password'];
-
-                ableToEdit = true;
-              });
-            },
-            child: Container(
+      body: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Welcome Admin"),
+            SizedBox(
               height: 50,
-              width: 100,
-              color: Colors.blue,
-              child: Center(
-                child: Text(
-                  "Get User Data",
+            ),
+            TextFormField(
+              controller: emailController,
+              decoration: InputDecoration(
+                hintText: "Email",
+              ),
+            ),
+            GestureDetector(
+              onTap: () async {
+                String userEmail = emailController.text.trim();
+
+                final QuerySnapshot snap = await FirebaseFirestore.instance
+                    .collection('user')
+                    .where('email', isEqualTo: userEmail)
+                    .get();
+                setState(() {
+                  email = userEmail;
+                  uid = snap.docs[0]['uid'];
+                  role = snap.docs[0]['role'];
+                  password = snap.docs[0]['password'];
+
+                  ableToEdit = true;
+                });
+              },
+              child: Container(
+                height: 50,
+                width: 100,
+                color: Colors.blue,
+                child: Center(
+                  child: Text(
+                    "Get User Data",
+                  ),
                 ),
               ),
             ),
-          ),
-          ableToEdit
-              ? GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditUser(
-                                  uid: uid,
-                                )));
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 100,
-                    color: Colors.blue,
-                    child: Center(
-                      child: Text(
-                        "Edit User",
+            SizedBox(height: 5),
+            ableToEdit
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditUser(
+                                    uid: uid,
+                                  )));
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 100,
+                      color: Colors.blue,
+                      child: Center(
+                        child: Text(
+                          "Edit User",
+                        ),
                       ),
                     ),
+                  )
+                : Container(),
+            SizedBox(height: 5),
+            GestureDetector(
+              onTap: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CreateUser()));
+              },
+              child: Container(
+                height: 50,
+                width: 100,
+                color: Colors.blue,
+                child: Center(
+                  child: Text(
+                    "Create User",
                   ),
-                )
-              : Container(),
-          GestureDetector(
-            onTap: () async {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CreateUser()));
-            },
-            child: Container(
-              height: 50,
-              width: 100,
-              color: Colors.blue,
-              child: Center(
-                child: Text(
-                  "Create User",
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Text('User Data :'),
-          SizedBox(
-            height: 50,
-          ),
-          Text('Email : ' + email),
-          Text('UID : ' + uid),
-          Text('Role : ' + role),
-          Text('Password : ' + password),
-        ],
+            SizedBox(
+              height: 50,
+            ),
+            Text('User Data :'),
+            SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text('Email : ' + email),
+                  Text('UID : ' + uid),
+                  Text('Role : ' + role),
+                  Text('Password : ' + password),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

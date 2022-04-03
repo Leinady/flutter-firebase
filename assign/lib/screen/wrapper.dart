@@ -1,5 +1,6 @@
 import 'package:assign/models/user.dart';
 import 'package:assign/screen/admin/adminscreen.dart';
+import 'package:assign/screen/admin/dashbord.dart';
 import 'package:assign/screen/admin/splashscreen.dart';
 import 'package:assign/screen/authen/authenticate.dart';
 import 'package:assign/screen/home/home.dart';
@@ -15,7 +16,8 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Authenticate();
     } else if (user.uid == 'vkUov6GLXoSe2HmWicQShB5mRmH3') {
-      return AdminScreen();
+      // return AdminScreen();
+      return Admin();
     } else {
       return Home();
     }
