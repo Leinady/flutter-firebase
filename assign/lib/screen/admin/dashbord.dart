@@ -1,3 +1,4 @@
+import 'package:assign/actions/action_auth.dart';
 import 'package:assign/screen/admin/adminscreen.dart';
 import 'package:assign/screen/authen/sign_in.dart';
 import 'package:flutter/material.dart';
@@ -230,11 +231,7 @@ class _AdminState extends State<Admin> {
               leading: Icon(Icons.logout),
               title: Text("Log out"),
               onTap: () async {
-                await _auth.signOut().then((value) =>
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: ((context) => SignIn())),
-                        (route) => true));
+                ActionAuth.logout(context);
               },
             ),
             Divider(),

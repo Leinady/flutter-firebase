@@ -1,9 +1,9 @@
+import 'package:assign/actions/action_auth.dart';
 import 'package:assign/screen/admin/editusers.dart';
 import 'package:assign/screen/proflie/componants/profile_picture.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../service/authserv.dart';
-import '../../authen/sign_in.dart';
 import 'proflieform.dart';
 
 class Bodyprof extends StatelessWidget {
@@ -35,7 +35,7 @@ class Bodyprof extends StatelessWidget {
             text: "Log Out",
             icon: "assets/icons/Log out.svg",
             press: () async {
-              await _auth.signOut();
+              ActionAuth.logout(context);
             },
           ),
         ],

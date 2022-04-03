@@ -1,6 +1,8 @@
 import 'package:assign/models/user.dart';
 import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/route/cartprovider.dart';
+import 'package:assign/screen/authen/sign_in.dart';
+import 'package:assign/screen/home/home.dart';
 import 'package:assign/screen/wrapper.dart';
 import 'package:assign/service/authserv.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => ItemProvider())
         ],
         child: MaterialApp(
-          home: Wrapper(),
+          home: SignIn(),
           debugShowCheckedModeBanner: false,
         ),
       ),

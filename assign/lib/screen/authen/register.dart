@@ -1,3 +1,4 @@
+import 'package:assign/actions/action_auth.dart';
 import 'package:assign/screen/authen/sign_in.dart';
 import 'package:assign/service/authserv.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,13 +15,11 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final Authservice _auth = Authservice();
   final _formKey = GlobalKey<FormState>();
 
-  String email = '';
-  String password = '';
-  String error = '';
-  String role = '';
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,105 +29,124 @@ class _RegisterState extends State<Register> {
         backgroundColor: Colors.black45,
         elevation: 0.0,
         title: Text('Sign up to my project'),
-        actions: <Widget>[
-          TextButton.icon(
-              style: TextButton.styleFrom(primary: Colors.white),
-              onPressed: () {
-                widget.toggle();
-              },
-              icon: Icon(Icons.add_circle_outline),
-              label: Text('Sign In'))
+      ),
+      body: Column(
+        children: [
+          Container(
+            child: Text('Register'),
+          ),
+          Flexible(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: ListView(
+                  children: [
+                    TextFormField(
+                      controller: _emailController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Error';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Error';
+                        }
+                        if (value.length < 6) {
+                          return 'password must 1-6 char';
+                        }
+                        return null;
+                      },
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Error';
+                        }
+                        if (value != _passwordController.text) {
+                          return 'password not match';
+                        }
+                        return null;
+                      },
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 100, vertical: 20),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => Dialog(
+                                        child: Container(
+                                          height: 100,
+                                          width: 100,
+                                          child: Column(
+                                            children: [
+                                              Spacer(),
+                                              CircularProgressIndicator(),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text('Loading'),
+                                              Spacer(),
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+
+                              final res =
+                                  await ActionAuth.registerWithEmailAndPassword(
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                      role: 'user');
+                              if (res == true) {
+                                Navigator.pop(context); // pop dialog
+                                Navigator.pop(context); // pop register page
+                              } else {
+                                print(res);
+                              }
+                            }
+                          },
+                          child: Text('Register')),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-        child: Form(
-          key: _formKey,
-          child: Column(children: <Widget>[
-            SizedBox(
-              height: 20,
-            ),
-            TextFieldContainer(
-              child: TextFormField(
-                decoration: InputDecoration(border: InputBorder.none),
-                validator: (val) => val.isEmpty ? 'Enter an Email' : null,
-                onChanged: (val) {
-                  setState(() => email = val);
-                },
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextFieldContainer(
-              child: TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(border: InputBorder.none),
-                  validator: (val) =>
-                      val.length < 6 ? 'Enter a password 6+' : null,
-                  onChanged: (val) {
-                    setState(() => password = val);
-                  }),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.pink[200],
-              ),
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  dynamic result = await _auth.registerWithEmailAndPassword(
-                      email, password, role);
-                  // User user = FirebaseAuth.instance.currentUser;
-
-                  // await FirebaseFirestore.instance
-                  //     .collection("users")
-                  //     .doc(user.uid)
-                  //     .set({
-                  //   'uid': user.uid,
-                  //   'email': email,
-                  //   'password': password,
-                  //   'role': 'user',
-                  // });
-                  if (result == null) {
-                    setState(() => error = 'please put email');
-                  }
-                }
-              },
-              child: Text('Sign up'),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-              error,
-              style: TextStyle(color: Colors.red, fontSize: 15),
-            )
-          ]),
-        ),
-      ),
-    );
-  }
-}
-
-class TextFieldContainer extends StatelessWidget {
-  final Widget child;
-  const TextFieldContainer({
-    Key key,
-    this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      width: size.width * 0.8,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(29)),
-      child: child,
     );
   }
 }
