@@ -18,7 +18,7 @@ class _AdminScreenState extends State<AdminScreen> {
   String password = " ";
 
   bool ableToEdit = false;
-  final Authservice _auth = Authservice();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +28,6 @@ class _AdminScreenState extends State<AdminScreen> {
           backgroundColor: Colors.black,
           elevation: 1,
           actions: <Widget>[
-            IconButton(
-                onPressed: () async {
-                  await _auth.signOut();
-                },
-                icon: Icon(Icons.backspace_rounded),
-                color: Colors.white),
             IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.data_saver_on),

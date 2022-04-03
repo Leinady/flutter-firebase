@@ -1,5 +1,9 @@
+import 'package:assign/screen/admin/adminscreen.dart';
+import 'package:assign/screen/authen/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../service/authserv.dart';
 
 enum Page { dashboard, manage }
 
@@ -16,6 +20,7 @@ class _AdminState extends State<Admin> {
   TextEditingController brandController = TextEditingController();
   GlobalKey<FormState> _categoryFormKey = GlobalKey();
   GlobalKey<FormState> _brandFormKey = GlobalKey();
+  final Authservice _auth = Authservice();
   // BrandService _brandService = BrandService();
   // CategoryService _categoryService = CategoryService();
 
@@ -180,6 +185,7 @@ class _AdminState extends State<Admin> {
           ],
         );
         break;
+
       case Page.manage:
         return ListView(
           children: <Widget>[
@@ -191,8 +197,11 @@ class _AdminState extends State<Admin> {
             Divider(),
             ListTile(
               leading: Icon(Icons.change_history),
-              title: Text("Products list"),
-              onTap: () {},
+              title: Text("Edit users"),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AdminScreen()));
+              },
             ),
             Divider(),
             ListTile(
@@ -218,9 +227,15 @@ class _AdminState extends State<Admin> {
             ),
             Divider(),
             ListTile(
-              leading: Icon(Icons.library_books),
-              title: Text("brand list"),
-              onTap: () {},
+              leading: Icon(Icons.logout),
+              title: Text("Log out"),
+              onTap: () async {
+                await _auth.signOut().then((value) =>
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: ((context) => SignIn())),
+                        (route) => true));
+              },
             ),
             Divider(),
           ],
