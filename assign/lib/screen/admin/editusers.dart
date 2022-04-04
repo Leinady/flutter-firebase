@@ -22,7 +22,7 @@ class _EditUserState extends State<EditUser> {
         children: [
           TextFormField(
             controller: roleController,
-            decoration: InputDecoration(hintText: "Role..."),
+            decoration: InputDecoration(hintText: "Email..."),
           ),
           TextFormField(
             controller: passwordController,
@@ -37,7 +37,7 @@ class _EditUserState extends State<EditUser> {
                   .collection('users')
                   .doc(widget.uid)
                   .update({
-                'role': newRole,
+                'email': newRole,
                 'password': newPassword,
               });
             },

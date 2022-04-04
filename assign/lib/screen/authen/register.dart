@@ -51,6 +51,7 @@ class _RegisterState extends State<Register> {
                         return null;
                       },
                       decoration: InputDecoration(
+                          hintText: "Put your email",
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -72,6 +73,7 @@ class _RegisterState extends State<Register> {
                       },
                       obscureText: true,
                       decoration: InputDecoration(
+                          hintText: "Put your password",
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -93,6 +95,7 @@ class _RegisterState extends State<Register> {
                       },
                       obscureText: true,
                       decoration: InputDecoration(
+                          hintText: "Confirm your password",
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(

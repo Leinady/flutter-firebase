@@ -5,7 +5,12 @@ class CartProvider extends ChangeNotifier {
 
   addItem(Productmod item) {
     // provider.add( Product(name , price , qty ) )
-    items.add(item);
+    if (item.productName == item.productName) {
+      print("product is already have in cart");
+      return null;
+    } else {
+      items.add(item);
+    }
     notifyListeners();
   }
 
@@ -23,12 +28,14 @@ class CartProvider extends ChangeNotifier {
   double getTotalPrice() {
     double total = 0;
     items.forEach((elem) {
-      total += elem.price;
+      total += (elem.price * elem.qty);
     });
+    notifyListeners();
     return total;
   }
 
   int getItemCount() {
+    notifyListeners();
     return items.length;
   }
 
@@ -37,7 +44,7 @@ class CartProvider extends ChangeNotifier {
     items.forEach((item) {
       item.qty += count;
     });
-
+    notifyListeners();
     return count;
   }
 }

@@ -42,7 +42,8 @@ class _BodyCState extends State<BodyC> {
                 ),
                 onDismissed: (direction) {
                   setState(() {
-                    demoCarts.removeAt(index);
+                    provider.items.removeAt(index);
+                    // demoCarts.removeAt(index);
                   });
                 },
                 child: Cartitem(
