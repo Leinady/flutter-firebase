@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ItemProvider extends ChangeNotifier {
@@ -5,18 +7,18 @@ class ItemProvider extends ChangeNotifier {
 
   ItemProvider();
 
-  increaseItem() {
-    this.itemCount++;
-    notifyListeners();
-  }
+  final a = FirebaseFirestore.instance
+      .collection('user')
+      .doc('email')
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      Text('${documentSnapshot.data()}');
+    }
+  });
 
-  decreaseItem() {
-    this.itemCount--;
-    notifyListeners();
-  }
-
-  itemReset() {
-    this.itemCount = 0;
+  alluser() {
+    a.toString();
     notifyListeners();
   }
 }

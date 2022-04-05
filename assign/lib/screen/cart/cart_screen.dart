@@ -1,9 +1,6 @@
 import 'package:assign/models/Product.dart';
 import 'package:assign/models/cart.dart';
 import 'package:assign/route/cartprovider.dart';
-import 'package:assign/screen/home/components/body.dart';
-import 'package:assign/screen/home/home.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'componant/body.dart';

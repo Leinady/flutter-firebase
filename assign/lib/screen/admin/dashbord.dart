@@ -1,8 +1,13 @@
 import 'package:assign/actions/action_auth.dart';
+import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/screen/admin/adminscreen.dart';
+import 'package:assign/screen/admin/componant/invoice.dart';
 import 'package:assign/screen/authen/sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import '../../service/authserv.dart';
 
@@ -21,7 +26,6 @@ class _AdminState extends State<Admin> {
   TextEditingController brandController = TextEditingController();
   GlobalKey<FormState> _categoryFormKey = GlobalKey();
   GlobalKey<FormState> _brandFormKey = GlobalKey();
-  final Authservice _auth = Authservice();
   // BrandService _brandService = BrandService();
   // CategoryService _categoryService = CategoryService();
 
@@ -68,7 +72,10 @@ class _AdminState extends State<Admin> {
         return Column(
           children: <Widget>[
             ListTile(
-              subtitle: FlatButton.icon(
+              subtitle: ElevatedButton.icon(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Color.fromARGB(255, 243, 243, 243))),
                 onPressed: null,
                 icon: Icon(
                   Icons.attach_money,
@@ -92,24 +99,46 @@ class _AdminState extends State<Admin> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(18.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.people_outline),
-                              label: Text("Users")),
-                          subtitle: Text(
-                            '7',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
-                    ),
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('user')
+                            .snapshots(),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          return Card(
+                            child: Consumer<ItemProvider>(
+                                builder: (context, provider, child) {
+                              return ListTile(
+                                  title: ElevatedButton.icon(
+                                      onPressed: null,
+                                      icon: Icon(Icons.people_outline),
+                                      label: Text("Users")),
+                                  subtitle: Text(
+                                    '${snapshot.data.size}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: active, fontSize: 60.0),
+                                  ));
+                            }),
+                          );
+                        }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: Card(
                       child: ListTile(
-                          title: FlatButton.icon(
+                          title: ElevatedButton.icon(
                               onPressed: null,
                               icon: Icon(Icons.category),
                               label: Text("Categories")),
@@ -124,7 +153,7 @@ class _AdminState extends State<Admin> {
                     padding: const EdgeInsets.all(22.0),
                     child: Card(
                       child: ListTile(
-                          title: FlatButton.icon(
+                          title: ElevatedButton.icon(
                               onPressed: null,
                               icon: Icon(Icons.track_changes),
                               label: Text("Producs")),
@@ -135,56 +164,58 @@ class _AdminState extends State<Admin> {
                           )),
                     ),
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(22.0),
+                  //   child: Card(
+                  //     child: ListTile(
+                  //         title: FlatButton.icon(
+                  //             onPressed: null,
+                  //             icon: Icon(Icons.tag_faces),
+                  //             label: Text("Sold")),
+                  //         subtitle: Text(
+                  //           '13',
+                  //           textAlign: TextAlign.center,
+                  //           style: TextStyle(color: active, fontSize: 60.0),
+                  //         )),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(22.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.tag_faces),
-                              label: Text("Sold")),
-                          subtitle: Text(
-                            '13',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(22.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.shopping_cart),
-                              label: Text("Orders")),
-                          subtitle: Text(
-                            '5',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(22.0),
-                    child: Card(
-                      child: ListTile(
-                          title: FlatButton.icon(
-                              onPressed: null,
-                              icon: Icon(Icons.close),
-                              label: Text("Return")),
-                          subtitle: Text(
-                            '0',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: active, fontSize: 60.0),
-                          )),
-                    ),
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('Basket')
+                            .snapshots(),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          return Card(
+                            child: ListTile(
+                                title: ElevatedButton.icon(
+                                    onPressed: null,
+                                    icon: Icon(Icons.shopping_cart),
+                                    label: Text("Orders")),
+                                subtitle: Text(
+                                  '${snapshot.data.size}',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      TextStyle(color: active, fontSize: 60.0),
+                                )),
+                          );
+                        }),
                   ),
                 ],
               ),
             ),
           ],
         );
+
         break;
 
       case Page.manage:
@@ -215,8 +246,11 @@ class _AdminState extends State<Admin> {
             Divider(),
             ListTile(
               leading: Icon(Icons.category),
-              title: Text("Category list"),
-              onTap: () {},
+              title: Text("Invoices"),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => InvoiceScreen()));
+              },
             ),
             Divider(),
             ListTile(
