@@ -3,22 +3,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ItemProvider extends ChangeNotifier {
-  int itemCount = 0;
-
   ItemProvider();
 
-  final a = FirebaseFirestore.instance
-      .collection('user')
-      .doc('email')
-      .get()
-      .then((DocumentSnapshot documentSnapshot) {
-    if (documentSnapshot.exists) {
-      Text('${documentSnapshot.data()}');
-    }
-  });
+  totalprice() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        var a = (doc["first_name"]);
+      });
+    });
 
-  alluser() {
-    a.toString();
     notifyListeners();
   }
 }

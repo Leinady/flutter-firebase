@@ -93,19 +93,20 @@ class CheckOut extends StatelessWidget {
                                       ));
                               List proN = [];
                               provider.items.forEach((element) async {
-                                proN.add(element.productName);
-                                final res = await _basketCollection.add({
-                                  "Username": auth.currentUser.email,
-                                  "Total price": provider.getTotalPrice(),
-                                  "Product name": proN
-                                });
-                                if (res != null) {
-                                  Navigator.pop(context);
-                                } else {
-                                  print(res);
-                                }
+                                // proN.add(element.productName);
+                                proN.addAll([element.productName, element.qty]);
                               });
 
+                              final res = await _basketCollection.add({
+                                "Username": auth.currentUser.email,
+                                "Total price": provider.getTotalPrice(),
+                                "Product name": proN,
+                              });
+                              if (res != null) {
+                                Navigator.pop(context);
+                              } else {
+                                print(res);
+                              }
                               print(proN);
                             },
                             child: Text("Check out"),

@@ -50,10 +50,10 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         ListTile(
                           leading: Icon(Icons.arrow_forward_ios),
                           title: Text("${data.docs[index]['Username']}"),
-                          subtitle:
-                              Text("Price: ${data.docs[index]['Total price']}" +
-                                  " "
-                                      "Product name: ${data.docs[index]['Product name']}"),
+                          subtitle: Text(
+                              "Price: ${data.docs[index]['Total price']}" +
+                                  "\n" +
+                                  "Product name: ${data.docs[index]['Product name']}"),
                         ),
                       ],
                     ),

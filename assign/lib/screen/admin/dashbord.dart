@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:assign/actions/action_auth.dart';
 import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/screen/admin/adminscreen.dart';
+import 'package:assign/screen/admin/componant/addproduct.dart';
 import 'package:assign/screen/admin/componant/invoice.dart';
 import 'package:assign/screen/authen/sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -71,27 +74,50 @@ class _AdminState extends State<Admin> {
       case Page.dashboard:
         return Column(
           children: <Widget>[
-            ListTile(
-              subtitle: ElevatedButton.icon(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Color.fromARGB(255, 243, 243, 243))),
-                onPressed: null,
-                icon: Icon(
-                  Icons.attach_money,
-                  size: 30.0,
-                  color: Colors.green,
-                ),
-                label: Text('12,000',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30.0, color: Colors.green)),
-              ),
-              title: Text(
-                'Revenue',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24.0, color: Colors.grey),
-              ),
-            ),
+            Consumer<ItemProvider>(builder: (context, provider, child) {
+              return StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('Basket')
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    // double total = 0.0;
+                    // for (int i = 0; i <= snapshot.data.size; i++) {
+                    //   total = snapshot.data.docs[i]['Total price'];
+                    // }
+                    // print(total);
+                    return ListTile(
+                      subtitle: ElevatedButton.icon(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Color.fromARGB(255, 243, 243, 243))),
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.attach_money,
+                          size: 30.0,
+                          color: Colors.green,
+                        ),
+                        label: Text('12000',
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(fontSize: 30.0, color: Colors.green)),
+                      ),
+                      title: Text(
+                        'Revenue',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 24.0, color: Colors.grey),
+                      ),
+                    );
+                  });
+            }),
             Expanded(
               child: GridView(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -143,7 +169,7 @@ class _AdminState extends State<Admin> {
                               icon: Icon(Icons.category),
                               label: Text("Categories")),
                           subtitle: Text(
-                            '23',
+                            '5',
                             textAlign: TextAlign.center,
                             style: TextStyle(color: active, fontSize: 60.0),
                           )),
@@ -224,7 +250,12 @@ class _AdminState extends State<Admin> {
             ListTile(
               leading: Icon(Icons.add),
               title: Text("Add product"),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddproductScreen()));
+              },
             ),
             Divider(),
             ListTile(

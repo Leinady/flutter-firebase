@@ -5,12 +5,15 @@ class CartProvider extends ChangeNotifier {
 
   addItem(Productmod item) {
     // provider.add( Product(name , price , qty ) )
-    if (item.productName == item.productName) {
+    final int idx =
+        items.indexWhere((elem) => item.productName == elem.productName);
+    print(idx);
+    if (idx >= 0) {
       print("product is already have in cart");
-      return null;
     } else {
       items.add(item);
     }
+
     notifyListeners();
   }
 
