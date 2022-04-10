@@ -89,11 +89,12 @@ class _AdminState extends State<Admin> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    // double total = 0.0;
-                    // for (int i = 0; i <= snapshot.data.size; i++) {
-                    //   total = snapshot.data.docs[i]['Total price'];
-                    // }
-                    // print(total);
+                    double total = 0.0;
+                    for (int i = 0; i < snapshot.data.size; i++) {
+                      total += snapshot.data.docs[i]['Total price'];
+                    }
+
+                    print(total);
                     return ListTile(
                       subtitle: ElevatedButton.icon(
                         style: ButtonStyle(
@@ -105,7 +106,7 @@ class _AdminState extends State<Admin> {
                           size: 30.0,
                           color: Colors.green,
                         ),
-                        label: Text('12000',
+                        label: Text(total.toString(),
                             textAlign: TextAlign.center,
                             style:
                                 TextStyle(fontSize: 30.0, color: Colors.green)),

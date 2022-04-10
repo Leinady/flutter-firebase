@@ -39,6 +39,8 @@ dependencies:
   shared_preferences: ^2.0.13
   firebase_storage: ^10.2.10
   file_picker: ^4.5.1
+  flutter_stripe: ^2.4.0
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

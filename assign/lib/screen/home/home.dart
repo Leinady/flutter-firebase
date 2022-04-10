@@ -10,7 +10,6 @@ import 'package:assign/screen/home/components/body.dart';
 class Home extends StatelessWidget {
   //const home({Key key}) : super(key: key);
 
-  final Authservice _auth = Authservice();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,18 +19,6 @@ class Home extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 1,
           actions: <Widget>[
-            IconButton(
-                onPressed: () async {
-                  await _auth.signOut();
-                  // .then((value) {
-                  //   Navigator.pushReplacement(context,
-                  //       MaterialPageRoute(builder: (context) {
-                  //     return SignIn();
-                  //   }));
-                  // });
-                },
-                icon: Icon(Icons.backspace_rounded),
-                color: Colors.black),
             IconButton(
               onPressed: () {
                 Navigator.push(

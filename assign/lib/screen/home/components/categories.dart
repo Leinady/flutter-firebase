@@ -4,6 +4,8 @@ import 'package:assign/screen/home/home.dart';
 import 'package:assign/screen/parts/shockup_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../parts/exhaust_screen.dart';
+
 class Categories extends StatefulWidget {
   @override
   _CategoriesState createState() => _CategoriesState();
@@ -33,25 +35,25 @@ class _CategoriesState extends State<Categories> {
         setState(() {
           selectIndex = index;
           if (index == 0) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => Home()),
             );
           }
           if (index == 1) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => Shockupscreen()),
             );
           } else if (index == 2) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => CartScreen()),
             );
           } else if (index == 3) {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => CartScreen()),
+              MaterialPageRoute(builder: (context) => ExhaustScreen()),
             );
           }
         });

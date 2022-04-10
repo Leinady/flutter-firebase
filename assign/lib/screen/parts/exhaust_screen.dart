@@ -3,14 +3,15 @@ import 'package:assign/screen/parts/components/body.dart';
 import 'package:flutter/material.dart';
 
 import '../proflie/profile_screen.dart';
+import 'components/bodyh.dart';
 
-class Shockupscreen extends StatelessWidget {
-  const Shockupscreen({Key key}) : super(key: key);
+class ExhaustScreen extends StatelessWidget {
+  const ExhaustScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BodyS(),
+        body: BodyH(),
         appBar: AppBar(
           // title: Text('Home page'),
           backgroundColor: Colors.white,

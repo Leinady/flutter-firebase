@@ -27,8 +27,16 @@ class Storage {
     return result;
   }
 
+  Future<String> downloadURLexhaust(String Name) async {
+    String downloadURL =
+        await storage.ref('Product/Exhaust/$Name').getDownloadURL();
+
+    return downloadURL;
+  }
+
   Future<String> downloadURL(String Name) async {
-    String downloadURL = await storage.ref('Product/$Name').getDownloadURL();
+    String downloadURL =
+        await storage.ref('Product/Exhaust/$Name').getDownloadURL();
 
     return downloadURL;
   }

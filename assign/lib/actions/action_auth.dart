@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ActionAuth {
-
   static registerWithEmailAndPassword(
       {String email, String password, String role}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -18,15 +17,12 @@ class ActionAuth {
           .collection('user')
           .doc(userCredential.user.uid)
           .set({
-                'uid': userCredential.user.uid,
-                "email": email,
-                'role': role,
+        'uid': userCredential.user.uid,
+        "email": email,
+        'role': role,
       });
-    print("[FirebaseAuth] : Register Done!");
+      print("[FirebaseAuth] : Register Done!");
       return true;
-
-
-
     } on FirebaseAuthException catch (err) {
       print("[FirebaseAuth] : Register Failed! $err");
       return false;
