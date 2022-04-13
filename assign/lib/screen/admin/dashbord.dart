@@ -6,8 +6,10 @@ import 'package:assign/screen/admin/adminscreen.dart';
 import 'package:assign/screen/admin/componant/addproduct.dart';
 import 'package:assign/screen/admin/componant/invoice.dart';
 import 'package:assign/screen/authen/sign_in.dart';
+import 'package:assign/service/storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +31,7 @@ class _AdminState extends State<Admin> {
   TextEditingController brandController = TextEditingController();
   GlobalKey<FormState> _categoryFormKey = GlobalKey();
   GlobalKey<FormState> _brandFormKey = GlobalKey();
+  FirebaseStorage firebasestorage = FirebaseStorage.instance;
   // BrandService _brandService = BrandService();
   // CategoryService _categoryService = CategoryService();
 
@@ -70,6 +73,7 @@ class _AdminState extends State<Admin> {
   }
 
   Widget _loadScreen() {
+    final Storage storage = Storage();
     switch (_selectedPage) {
       case Page.dashboard:
         return Column(
@@ -176,6 +180,7 @@ class _AdminState extends State<Admin> {
                           )),
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.all(22.0),
                     child: Card(
@@ -185,7 +190,7 @@ class _AdminState extends State<Admin> {
                               icon: Icon(Icons.track_changes),
                               label: Text("Producs")),
                           subtitle: Text(
-                            '120',
+                            '5',
                             textAlign: TextAlign.center,
                             style: TextStyle(color: active, fontSize: 60.0),
                           )),
@@ -248,6 +253,7 @@ class _AdminState extends State<Admin> {
       case Page.manage:
         return ListView(
           children: <Widget>[
+            Divider(),
             ListTile(
               leading: Icon(Icons.add),
               title: Text("Add product"),

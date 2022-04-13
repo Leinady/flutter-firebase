@@ -6,6 +6,7 @@ import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/detail/components/Description.dart';
 import 'package:assign/screen/detail/components/productTitle_3d.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -239,8 +240,11 @@ class _BodysState extends State<Bodys> {
   }
 
   Future<void> makePayment() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
     try {
-      paymentIntentData = await createPaymentIntent('20', 'THB');
+      paymentIntentData =
+          await createPaymentIntent(widget.product.price.toString(), 'THB');
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
               paymentIntentClientSecret: paymentIntentData["client_secret"],
@@ -249,7 +253,7 @@ class _BodysState extends State<Bodys> {
               testEnv: false,
               style: ThemeMode.dark,
               merchantCountryCode: 'TH',
-              merchantDisplayName: 'ANNIE'));
+              merchantDisplayName: auth.currentUser.email));
 
       ///now finally display payment sheeet
       displayPaymentSheet();
@@ -288,7 +292,7 @@ class _BodysState extends State<Bodys> {
   createPaymentIntent(String amount, String currency) async {
     try {
       Map<String, dynamic> body = {
-        'amount': calculateAmount('20'),
+        'amount': calculateAmount(amount),
         'currency': currency,
         'payment_method_types[]': 'card'
       };

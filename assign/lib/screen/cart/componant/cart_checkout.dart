@@ -1,15 +1,20 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:assign/models/cart.dart';
 import 'package:assign/route/cartprovider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 class CheckOut extends StatelessWidget {
   final Cart cart;
   final auth = FirebaseAuth.instance;
   final formKey = GlobalKey<FormState>();
+  Map<String, dynamic> paymentIntentData;
 
+  BuildContext context;
   CheckOut({
     Key key,
     this.cart,
@@ -71,43 +76,25 @@ class CheckOut extends StatelessWidget {
                               backgroundColor: Colors.orange,
                             ),
                             onPressed: () async {
-                              showDialog(
-                                  context: context,
-                                  // barrierDismissible: false,
-                                  builder: (context) => Dialog(
-                                        child: Container(
-                                          height: 100,
-                                          width: 100,
-                                          child: Column(
-                                            children: [
-                                              Spacer(),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Icon(Icons.check),
-                                              Text('Success'),
-                                              Spacer(),
-                                            ],
-                                          ),
-                                        ),
-                                      ));
                               List proN = [];
                               provider.items.forEach((element) async {
                                 // proN.add(element.productName);
                                 proN.addAll([element.productName, element.qty]);
                               });
 
-                              final res = await _basketCollection.add({
-                                "Username": auth.currentUser.email,
-                                "Total price": provider.getTotalPrice(),
-                                "Product name": proN,
-                              });
-                              if (res != null) {
+                              try {
+                                final res = await _basketCollection.add({
+                                  "Username": auth.currentUser.email,
+                                  "Total price": provider.getTotalPrice(),
+                                  "Product name": proN,
+                                });
+                                await makePayment(provider.getTotalPrice());
+                                print(proN);
+
                                 Navigator.pop(context);
-                              } else {
-                                print(res);
+                              } catch (err) {
+                                print('!!!!' + err);
                               }
-                              print(proN);
                             },
                             child: Text("Check out"),
                           ));
@@ -120,5 +107,97 @@ class CheckOut extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> makePayment(double totalprice) async {
+    FirebaseAuth authm = FirebaseAuth.instance;
+    try {
+      var price = totalprice.toString();
+      paymentIntentData = await createPaymentIntent(price, 'THB');
+      print('???/' + paymentIntentData.toString());
+      await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+              paymentIntentClientSecret: paymentIntentData["client_secret"],
+              applePay: true,
+              googlePay: true,
+              testEnv: false,
+              style: ThemeMode.dark,
+              merchantCountryCode: 'TH',
+              merchantDisplayName: authm.currentUser.email));
+
+      ///now finally display payment sheeet
+      displayPaymentSheet();
+    } catch (e, s) {
+      print('exception:$e$s');
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet(
+          parameters: PresentPaymentSheetParameters(
+        clientSecret: paymentIntentData['client_secret'],
+        confirmPayment: true,
+      ));
+
+      BuildContext context;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("paid successfully")));
+
+      paymentIntentData = null;
+    } on StripeException catch (e) {
+      print('Exception/DISPLAYPAYMENTSHEET==> $e');
+      var context;
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                content: Text("Cancelled "),
+              ));
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+//  Future<Map<String, dynamic>>
+  createPaymentIntent(String amount, String currency) async {
+    String amt = double.parse(amount).toInt().toString();
+    print('MMMMMMMMMM' + amt);
+    print('MMMMMMMMMM' + currency);
+    try {
+      var headersList = {
+        'Accept': '*/*',
+        'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+        'Authorization':
+            'Bearer sk_test_51KmBZIDp0AbO0nPgVTDGgQXtJTxoomUyRw5PKyI8Arxmmw63Pkg7MhvAcTWaf49OEAcGRXxpJizae5anZ9kCpW2400P7vgKyVd',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      };
+      var url = Uri.parse('https://api.stripe.com/v1/payment_intents');
+
+      var body = {
+        'amount': calculateAmount(amt),
+        'currency': currency,
+        'payment_method_types[]': 'card'
+      };
+      var req = http.Request('POST', url);
+      req.headers.addAll(headersList);
+      req.bodyFields = body;
+
+      var res = await req.send();
+      final resBody = await res.stream.bytesToString();
+
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        print(resBody);
+        return jsonDecode(resBody);
+      } else {
+        print(res.reasonPhrase);
+      }
+    } catch (err) {
+      print('err charging user: ${err.toString()}');
+    }
+  }
+
+  String calculateAmount(String amount) {
+    final a = (int.parse(amount)) * 100;
+    return a.toString();
   }
 }
