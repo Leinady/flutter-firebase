@@ -36,47 +36,63 @@ class _AdminScreenState extends State<AdminScreen> {
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Welcome Admin"),
             SizedBox(
-              height: 50,
+              height: 10,
             ),
-            TextFormField(
-              controller: emailController,
-              decoration: InputDecoration(
-                hintText: "Email",
-              ),
+            Text(
+              'All User in data',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.start,
             ),
-            GestureDetector(
-              onTap: () async {
-                String userEmail = emailController.text.trim();
+            SizedBox(
+              height: 10,
+            ),
+            StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('user').snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
 
-                final QuerySnapshot snap = await FirebaseFirestore.instance
-                    .collection('user')
-                    .where('email', isEqualTo: userEmail)
-                    .get();
-                setState(() {
-                  email = userEmail;
-                  uid = snap.docs[0]['uid'];
-                  role = snap.docs[0]['role'];
-                  password = snap.docs[0]['password'];
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-                  ableToEdit = true;
-                });
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data.size,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () async {
+                        final QuerySnapshot snap =
+                            await FirebaseFirestore.instance
+                                .collection('user')
+                                // .where('email')
+                                .get();
+                        setState(() {
+                          email = snap.docs[index]['email'];
+                          uid = snap.docs[index]['uid'];
+                          // role = snap.docs[index]['role'];
+                          // password = snap.docs[index]['password'];
+
+                          ableToEdit = true;
+                        });
+                      },
+                      child: ListTile(
+                        leading: Icon(Icons.person),
+                        title: Text("${snapshot.data.docs[index]['email']}"),
+                        subtitle: Text("${snapshot.data.docs[index]['uid']}"),
+                      ),
+                    );
+                  },
+                );
               },
-              child: Container(
-                height: 50,
-                width: 100,
-                color: Colors.blue,
-                child: Center(
-                  child: Text(
-                    "Get User Data",
-                  ),
-                ),
-              ),
             ),
-            SizedBox(height: 5),
             ableToEdit
                 ? GestureDetector(
                     onTap: () {
@@ -98,43 +114,18 @@ class _AdminScreenState extends State<AdminScreen> {
                       ),
                     ),
                   )
-                : Container(),
-            SizedBox(height: 5),
-            GestureDetector(
-              onTap: () async {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CreateUser()));
-              },
-              child: Container(
-                height: 50,
-                width: 100,
-                color: Colors.blue,
-                child: Center(
-                  child: Text(
-                    "Create User",
+                : SizedBox(
+                    height: 10,
                   ),
-                ),
+            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Text('User Data :'),
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Email : ' + email),
-                  Text('UID : ' + uid),
-                  Text('Role : ' + role),
-                  Text('Password : ' + password),
-                ],
-              ),
-            )
+              Text('Email : ' + email),
+              // Text('UID : ' + uid),
+              // Text('Role : ' + role),
+              // Text('Password : ' + password),
+            ]),
           ],
         ),
       ),

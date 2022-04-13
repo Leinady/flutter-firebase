@@ -1,3 +1,5 @@
+import 'package:assign/service/firebase_api.dart';
+import 'package:assign/service/firebasefile.dart';
 import 'package:assign/service/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -12,6 +14,16 @@ class AddproductScreen extends StatefulWidget {
 }
 
 class _AddproductScreenState extends State<AddproductScreen> {
+  Future<List<FirebaseFile>> futureFiles;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    futureFiles = FirebaseApi.listAll('Product/');
+  }
+
   @override
   Widget build(BuildContext context) {
     final Storage storage = Storage();
@@ -22,25 +34,19 @@ class _AddproductScreenState extends State<AddproductScreen> {
         elevation: 1,
       ),
       body: Column(children: [
-        Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              final result = await FilePicker.platform.pickFiles(
-                  allowMultiple: false,
-                  type: FileType.custom,
-                  allowedExtensions: ['gltf', 'png']);
-              if (result == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('No file')),
-                );
-                return null;
-              }
-              final path = result.files.single.path;
-              final fileName = result.files.single.name;
-
-              storage.uploadFile(path, fileName).then((value) => print('Done'));
-            },
-            child: Text('Upload file'),
+        SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Product in database',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+            ],
           ),
         ),
         FutureBuilder(
@@ -76,30 +82,75 @@ class _AddproductScreenState extends State<AddproductScreen> {
               }
               return Container();
             }),
-        FutureBuilder(
-            future: storage.downloadURL('wheel1.jpg'),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                return Container(
-                    width: 300,
-                    height: 250,
-                    child: Image.network(
-                      snapshot.data,
-                      fit: BoxFit.cover,
-                    )
-                    // ModelViewer(
-                    //   src: snapshot.data,
-                    // ),
+        Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              final result = await FilePicker.platform.pickFiles(
+                  allowMultiple: false,
+                  type: FileType.custom,
+                  allowedExtensions: ['gltf', 'png']);
+              if (result == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('No file')),
+                );
+                return null;
+              }
+              final path = result.files.single.path;
+              final fileName = result.files.single.name;
+
+              storage.uploadFile(path, fileName).then((value) => print('Done'));
+            },
+            child: Text('Upload file'),
+          ),
+        ),
+        FutureBuilder<List<FirebaseFile>>(
+            future: futureFiles,
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return Center(child: CircularProgressIndicator());
+
+                default:
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Some error occurred!'));
+                  } else {
+                    final files = snapshot.data;
+
+                    return Container(
+                      child: Expanded(
+                        child: ListView.builder(
+                          itemCount: files.length,
+                          itemBuilder: (context, index) {
+                            final file = files[index];
+
+                            return buildFile(context, file);
+                          },
+                        ),
+                      ),
                     );
+                  }
               }
-              if (snapshot.connectionState == ConnectionState.waiting &&
-                  !snapshot.hasData) {
-                return CircularProgressIndicator();
-              }
-              return Container();
             })
       ]),
     );
   }
+
+  Widget buildFile(BuildContext context, FirebaseFile file) {}
+  // => ListTile(
+  //       leading: Image.network(
+  //         file.url,
+  //         width: 52,
+  //         height: 52,
+  //         fit: BoxFit.cover,
+  //       ),
+
+  //               ModelViewer(
+  //         src: file.url,
+  //         backgroundColor: Colors.white,
+  //         ar: false,
+  //         autoRotate: false,
+  //         cameraControls: true,
+  //       )
+  //     );
+
 }

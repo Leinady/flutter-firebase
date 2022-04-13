@@ -268,13 +268,6 @@ class _AdminState extends State<Admin> {
               },
             ),
             Divider(),
-            ListTile(
-              leading: Icon(Icons.add_circle),
-              title: Text("Add category"),
-              onTap: () {
-                _categoryAlert();
-              },
-            ),
             Divider(),
             ListTile(
               leading: Icon(Icons.category),
@@ -285,13 +278,6 @@ class _AdminState extends State<Admin> {
               },
             ),
             Divider(),
-            ListTile(
-              leading: Icon(Icons.add_circle_outline),
-              title: Text("Add brand"),
-              onTap: () {
-                _brandAlert();
-              },
-            ),
             Divider(),
             ListTile(
               leading: Icon(Icons.logout),

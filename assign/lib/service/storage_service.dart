@@ -19,7 +19,8 @@ class Storage {
   }
 
   Future<firebase_storage.ListResult> listFile() async {
-    firebase_storage.ListResult result = await storage.ref('Product').listAll();
+    firebase_storage.ListResult result =
+        await storage.ref('Product/Exhaust/').listAll();
 
     result.items.forEach((firebase_storage.Reference ref) {
       print('Found file: $ref');
@@ -35,8 +36,7 @@ class Storage {
   }
 
   Future<String> downloadURL(String Name) async {
-    String downloadURL =
-        await storage.ref('Product/Exhaust/$Name').getDownloadURL();
+    String downloadURL = await storage.ref('Product/$Name').getDownloadURL();
 
     return downloadURL;
   }
