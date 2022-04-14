@@ -18,7 +18,7 @@ class ProductTitlewith3d extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Wheel RAYS",
+            "Product Detail",
             style: TextStyle(color: Colors.white),
           ),
           Text(

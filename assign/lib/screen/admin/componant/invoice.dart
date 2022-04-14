@@ -55,31 +55,25 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         horizontal: 20, vertical: 15),
                     child: Column(
                       children: [
-                        Dismissible(
-                          key: Key(data.docs[index].toString()),
-                          direction: DismissDirection.startToEnd,
-                          child: ListTile(
-                              leading: Icon(Icons.arrow_forward_ios),
-                              title: Text("${data.docs[index]['Username']}"),
-                              subtitle: Text(
-                                  "Price: ${data.docs[index]['Total price']}" +
-                                      "\n" +
-                                      "Product: ${data.docs[index]['Product name']}"),
-                              trailing: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.edit),
-                              )),
-                          onDismissed: (DismissDirection direction) {
-                            setState(() {
-                              basket
-                                  .doc()
-                                  .delete()
-                                  .then((value) => print("Invoice Deleted"))
-                                  .catchError((error) =>
-                                      print("Failed to delete user: $error"));
-                            });
-                          },
-                        ),
+                        ListTile(
+                            leading: Icon(Icons.arrow_forward_ios),
+                            title: Text("${data.docs[index]['Username']}"),
+                            subtitle: Text(
+                                "Price: ${data.docs[index]['Total price']}" +
+                                    "\n" +
+                                    "Product: ${data.docs[index]['Product name']}"),
+                            trailing: IconButton(
+                              onPressed: () {
+                                print(index.toString());
+                                basket
+                                    .doc('basket$index')
+                                    .delete()
+                                    .then((value) => print("Invoice Deleted"))
+                                    .catchError((error) =>
+                                        print("Failed to delete user: $error"));
+                              },
+                              icon: Icon(Icons.delete),
+                            )),
                       ],
                     ),
                   );

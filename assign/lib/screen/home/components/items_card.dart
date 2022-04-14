@@ -1,22 +1,39 @@
 import 'package:assign/models/Product.dart';
+import 'package:assign/route/cartprovider.dart';
+import 'package:assign/screen/home/components/body.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:flutter_cube/flutter_cube.dart';
 import 'package:model_viewer/model_viewer.dart';
+import 'package:provider/provider.dart';
 
-class ItemCard extends StatelessWidget {
+class ItemCard extends StatefulWidget {
   final Product product;
   final Function press;
   const ItemCard({
     Key key,
-    this.product,
     this.press,
     gridDelegate,
+    this.product,
   }) : super(key: key);
 
   @override
+  State<ItemCard> createState() => _ItemCardState();
+}
+
+class _ItemCardState extends State<ItemCard> {
+  TextEditingController editnameController = TextEditingController();
+  TextEditingController editpriceController = TextEditingController();
+  TextEditingController editdbsController = TextEditingController();
+  bool abletoedit = false;
+
+  @override
   Widget build(BuildContext context) {
+    if (auth.currentUser.uid == 'vkUov6GLXoSe2HmWicQShB5mRmH3') {
+      abletoedit = true;
+    }
     return GestureDetector(
-      onTap: press,
+      onTap: widget.press,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -24,11 +41,11 @@ class ItemCard extends StatelessWidget {
             height: 160,
             width: 140,
             decoration: BoxDecoration(
-                color: product.color, borderRadius: BorderRadius.circular(20)),
+                color: widget.product.color,
+                borderRadius: BorderRadius.circular(20)),
             child: ModelViewer(
-              src: product.cubic,
-              backgroundColor: product.color,
-              // alt: "A 3D model of an astronaut",
+              src: widget.product.cubic,
+              backgroundColor: widget.product.color,
               ar: false,
               autoRotate: true,
               cameraControls: true,
@@ -40,22 +57,114 @@ class ItemCard extends StatelessWidget {
             }),*/
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: Text(
-              product.title,
-              style: TextStyle(color: Colors.black),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  widget.product.title,
+                  style: TextStyle(color: Colors.black),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  '${widget.product.price} \$',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Consumer<CartProvider>(builder: (context, provider, child) {
+                  return Text(
+                    '${provider.checkstock()} no.',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  );
+                }),
+              ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-            child: Text(
-              '${product.price} \$',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-          )
+          abletoedit
+              ? IconButton(
+                  iconSize: 20.0,
+                  splashRadius: 20,
+                  onPressed: () {
+                    editproduct(widget.product);
+                  },
+                  icon: Icon(Icons.edit))
+              : false,
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+          //   child: Text(
+          //     '${widget.product.price} \$',
+          //     style:
+          //         TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          //   ),
+          // ),
         ],
       ),
     );
+  }
+
+  Future editproduct(Product product) async {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text('Edit Product'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: editnameController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'category cannot be empty';
+                      }
+                    },
+                    decoration:
+                        InputDecoration(hintText: 'Change product name'),
+                  ),
+                  TextFormField(
+                    controller: editpriceController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'category cannot be empty';
+                      }
+                    },
+                    decoration: InputDecoration(hintText: 'Change price'),
+                  ),
+                  TextFormField(
+                    controller: editdbsController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'category cannot be empty';
+                      }
+                    },
+                    decoration:
+                        InputDecoration(hintText: 'Change product in stock'),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                ElevatedButton(
+                    onPressed: () {
+                      if (editnameController.text != null) {
+                        product.title = editnameController.text;
+                        product.price = int.parse(editpriceController.text);
+                        product.dbs = int.parse(editdbsController.text);
+                      }
+                      Fluttertoast.showToast(msg: 'category created');
+                      Navigator.pop(context);
+                    },
+                    child: Text('CHANGE')),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('CANCEL')),
+              ],
+            ));
   }
 }

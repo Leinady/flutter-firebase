@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Product {
-  final String image, title, description;
-  final int price, size, id;
+  final String image, description;
+  String title;
+  int price, dbs;
+  final int size, id;
   final Color color;
   Object cubic;
   Product(
       {this.id,
       this.image,
+      this.dbs,
       this.title,
       this.price,
       this.description,
@@ -21,6 +24,7 @@ List<Product> products = [
       id: 1,
       title: "TE-37",
       price: 1500,
+      dbs: 20,
       size: 18,
       description: dummyText,
       cubic: 'assets/cude/wheel3d.gltf',
@@ -29,6 +33,7 @@ List<Product> products = [
       id: 2,
       title: "CE-28",
       price: 1400,
+      dbs: 20,
       size: 8,
       description: dummyText,
       cubic: 'assets/cude/Volk.gltf',
@@ -41,9 +46,22 @@ List<Product> productsh = [
       title: "Shock up 1",
       price: 500,
       size: 5,
+      dbs: 20,
       description: dummyText,
       cubic: 'assets/cude/pistao_hidraulico.gltf',
       color: Colors.red[100]),
+];
+
+List<Product> productex = [
+  Product(
+      id: 1,
+      title: "Exhaust 1",
+      price: 2500,
+      size: 2,
+      dbs: 20,
+      description: dummyText,
+      cubic: 'assets/cude/toba.gltf',
+      color: Colors.lime[100]),
 ];
 
 String dummyText =

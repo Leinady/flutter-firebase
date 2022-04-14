@@ -1,6 +1,7 @@
 import 'package:assign/models/Product.dart';
 import 'package:assign/screen/detail/detail_screen.dart';
 import 'package:assign/screen/home/components/categories.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'items_card.dart';
 
@@ -9,21 +10,28 @@ class Body extends StatefulWidget {
   State<Body> createState() => _BodyState();
 }
 
+FirebaseAuth auth = FirebaseAuth.instance;
+bool abletoedit = false;
+
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Garage Tuning",
-            style: Theme.of(context)
-                .textTheme
-                .headline5
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Garage Tuning",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
         ),
         Categories(),
         Expanded(

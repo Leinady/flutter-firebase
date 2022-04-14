@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:assign/models/Product.dart';
 import 'package:http/http.dart' as http;
 import 'package:assign/models/cart.dart';
 import 'package:assign/route/cartprovider.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 class CheckOut extends StatelessWidget {
+  final Product product;
   final Cart cart;
   final auth = FirebaseAuth.instance;
   final formKey = GlobalKey<FormState>();
@@ -18,6 +20,7 @@ class CheckOut extends StatelessWidget {
   CheckOut({
     Key key,
     this.cart,
+    this.product,
   }) : super(key: key);
 
   CollectionReference _basketCollection =
@@ -83,13 +86,20 @@ class CheckOut extends StatelessWidget {
                               });
 
                               try {
-                                final res = await _basketCollection.add({
+                                int index = 0;
+
+                                final res = await _basketCollection
+                                    .doc('basket$index')
+                                    .set({
                                   "Username": auth.currentUser.email,
                                   "Total price": provider.getTotalPrice(),
                                   "Product name": proN,
                                 });
                                 await makePayment(provider.getTotalPrice());
+                                provider.checkstock();
                                 print(proN);
+                                print(provider.checkstock().toString());
+                                index++;
 
                                 Navigator.pop(context);
                               } catch (err) {
@@ -123,7 +133,7 @@ class CheckOut extends StatelessWidget {
               testEnv: false,
               style: ThemeMode.dark,
               merchantCountryCode: 'TH',
-              merchantDisplayName: authm.currentUser.email));
+              merchantDisplayName: authm.currentUser.email.toString()));
 
       ///now finally display payment sheeet
       displayPaymentSheet();

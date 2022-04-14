@@ -6,6 +6,7 @@ import 'package:assign/screen/admin/adminscreen.dart';
 import 'package:assign/screen/admin/componant/addproduct.dart';
 import 'package:assign/screen/admin/componant/invoice.dart';
 import 'package:assign/screen/authen/sign_in.dart';
+import 'package:assign/screen/home/home.dart';
 import 'package:assign/service/storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -284,6 +285,15 @@ class _AdminState extends State<Admin> {
               },
             ),
             Divider(),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.remove_red_eye),
+              title: Text("User view"),
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Home()));
+              },
+            ),
             Divider(),
             ListTile(
               leading: Icon(Icons.logout),

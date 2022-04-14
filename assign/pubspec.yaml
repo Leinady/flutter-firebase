@@ -67,6 +67,7 @@ flutter:
     - assets/cude/Volk.gltf
     - assets/cude/pistao_hidraulico.gltf
     - assets/icons/Trash.svg
+    - assets/cude/toba.gltf
   #  - assets/cude/wheel_color.obj
     - assets/cude/wheel_color.blend
   #   - images/a_dot_ham.jpeg

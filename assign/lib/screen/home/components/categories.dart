@@ -2,9 +2,11 @@
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/home/home.dart';
 import 'package:assign/screen/parts/shockup_screen.dart';
+import 'package:assign/screen/parts/wing_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../parts/exhaust_screen.dart';
+import '../../parts/header_screen.dart';
 
 class Categories extends StatefulWidget {
   @override
@@ -48,12 +50,17 @@ class _CategoriesState extends State<Categories> {
           } else if (index == 2) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => CartScreen()),
+              MaterialPageRoute(builder: (context) => HeaderScreen()),
             );
           } else if (index == 3) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => ExhaustScreen()),
+            );
+          } else if (index == 4) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => WingScreen()),
             );
           }
         });

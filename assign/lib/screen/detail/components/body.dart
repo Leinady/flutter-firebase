@@ -142,6 +142,7 @@ class _BodysState extends State<Bodys> {
                                           print(widget.product.cubic);
                                           cartprovider.addItem(Productmod(
                                               widget.product.title,
+                                              widget.product.dbs,
                                               widget.product.price,
                                               itemCount,
                                               cubic: widget.product.cubic));
@@ -164,55 +165,6 @@ class _BodysState extends State<Bodys> {
                                   color: widget.product.color,
                                   onPressed: () async {
                                     await makePayment();
-
-                                    // Map<String, dynamic> body = {
-                                    //   'amount': '10000',
-                                    //   'currency': 'THB',
-                                    // };
-                                    // print(body);
-                                    // var response = await http.post(
-                                    //     Uri.parse(
-                                    //         'https://api.stripe.com/v1/payment_intents'),
-                                    //     body: body,
-                                    //     headers: {
-                                    //       'Authorization':
-                                    //           'Bearer sk_test_51KmBZIDp0AbO0nPgVTDGgQXtJTxoomUyRw5PKyI8Arxmmw63Pkg7MhvAcTWaf49OEAcGRXxpJizae5anZ9kCpW2400P7vgKyVd',
-                                    //       'Content-Type':
-                                    //           'application/x-www-form-urlencoded'
-                                    //     });
-                                    // print(
-                                    //     'Create Intent reponse ===> ${response.body.toString()}');
-
-                                    // var jsonBody = jsonDecode(response.body);
-
-                                    // Map<String, dynamic> paymentIntentData;
-
-                                    // paymentIntentData = jsonBody;
-                                    // if (paymentIntentData["paymentIntent"] !=
-                                    //         "" &&
-                                    //     paymentIntentData["paymentIntent"] !=
-                                    //         null) {
-                                    //   String _intent =
-                                    //       paymentIntentData["paymentIntent"];
-                                    //   await Stripe.instance.initPaymentSheet(
-                                    //     paymentSheetParameters:
-                                    //         SetupPaymentSheetParameters(
-                                    //       paymentIntentClientSecret: _intent,
-                                    //       applePay: false,
-                                    //       googlePay: false,
-                                    //       merchantCountryCode: "TH",
-                                    //       merchantDisplayName: "Test",
-                                    //       testEnv: false,
-                                    //       customerId:
-                                    //           paymentIntentData['customer'],
-                                    //       customerEphemeralKeySecret:
-                                    //           paymentIntentData['ephemeralKey'],
-                                    //     ),
-                                    //   );
-
-                                    //   await Stripe.instance
-                                    //       .presentPaymentSheet();
-                                    // }
                                   },
                                   child: Text(
                                     "Buy".toUpperCase(),

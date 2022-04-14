@@ -24,8 +24,13 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  checkout() {
-    //
+  int checkstock() {
+    int stock = 0;
+    items.forEach((element) {
+      stock = element.qtyindb - element.qty;
+    });
+    notifyListeners();
+    return stock;
   }
 
   double getTotalPrice() {
@@ -57,9 +62,11 @@ class Productmod {
   final String productName;
   final int price;
   final Object cubic;
+  int qtyindb;
   int qty;
 
-  Productmod(this.productName, this.price, this.qty, {this.cubic});
+  Productmod(this.productName, this.qtyindb, this.price, this.qty,
+      {this.cubic});
 
   @override
   String toString() {
