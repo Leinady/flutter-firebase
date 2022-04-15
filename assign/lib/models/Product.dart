@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Product {
+class Product extends ChangeNotifier {
   String description;
   String title;
   int price, dbs;
@@ -16,6 +16,17 @@ class Product {
       this.size,
       this.color,
       this.cubic});
+
+  addproductwheel(Product item) {
+    final int idx = products.indexWhere((elem) => item.title == elem.title);
+    print(idx);
+    if (idx >= 0) {
+      print("product is stock");
+    } else {
+      products.add(item);
+    }
+    notifyListeners();
+  }
 }
 
 List<Product> products = [
@@ -102,5 +113,6 @@ List<Product> producthd = [
       cubic: 'assets/cude/Brake2.gltf',
       color: Color.fromARGB(255, 245, 133, 133)),
 ];
+
 String dummyText =
     "The first model was a 15 inch with a startling 3.7kg, thus TE37. This model would be known decades later as the origin of forged sports wheel and is considered one of the masterpieces from Volkracing. Excellent stress variance with a calculated 6 spoke design offering various ranges in sizes and model variations";

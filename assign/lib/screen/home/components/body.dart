@@ -22,9 +22,9 @@ class Body extends StatefulWidget {
 }
 
 FirebaseAuth auth = FirebaseAuth.instance;
-bool abletoedit = false;
 
 class _BodyState extends State<Body> {
+  bool abletoedit = false;
   Color color = Colors.amber;
   TextEditingController addtitleController = TextEditingController();
   TextEditingController addpriceController = TextEditingController();
@@ -33,7 +33,7 @@ class _BodyState extends State<Body> {
   TextEditingController adddbsController = TextEditingController();
   TextEditingController addcolorController = TextEditingController();
   TextEditingController addidController = TextEditingController();
-
+  final add = TextEditingValue();
   @override
   Widget build(BuildContext context) {
     if (auth.currentUser.uid == 'vkUov6GLXoSe2HmWicQShB5mRmH3') {
@@ -149,6 +149,15 @@ class _BodyState extends State<Body> {
                       decoration: InputDecoration(hintText: 'Product in stock'),
                     ),
                     TextFormField(
+                      controller: addsizeController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'category cannot be empty';
+                        }
+                      },
+                      decoration: InputDecoration(hintText: 'Product size'),
+                    ),
+                    TextFormField(
                       controller: adddesController,
                       validator: (value) {
                         if (value.isEmpty) {
@@ -179,37 +188,33 @@ class _BodyState extends State<Body> {
                   },
                   icon: Icon(Icons.file_download),
                 ),
-                Consumer<ItemProvider>(builder: (context, provider, child) {
+                Consumer<Product>(builder: (context, provider, child) {
                   return ElevatedButton(
                       onPressed: () {
                         print(adddesController.text);
                         print(addidController.text);
-
-                        print(addtitleController.text);
-                        String title = addtitleController.text;
-                        String description = adddesController.text;
                         try {
+                          print(addtitleController.text);
+                          String title = addtitleController.text;
+                          String description = adddesController.text;
                           int id = int.parse(addidController.text);
-                          print(id.toString());
+                          var price = int.parse(addpriceController.text);
+                          var dbs = int.parse(adddbsController.text);
+                          var size = int.parse(addsizeController.text);
+                          color = color;
+                          //Object cubic = widget.newFiles.path;
+                          provider.addproductwheel(Product(
+                              id: id,
+                              dbs: dbs,
+                              title: title,
+                              price: price,
+                              description: description,
+                              size: size,
+                              color: color,
+                              cubic: 'assets/cude/wheel4.gltf'));
                         } on FormatException {
                           print('Format err');
                         }
-
-                        int price = int.parse(addpriceController.text);
-
-                        int dbs = int.parse(adddbsController.text);
-                        int size = int.parse(addsizeController.text);
-                        color = color;
-                        Object cubic = widget.newFiles.path;
-                        // provider.addproduct(Product(
-                        //     id: id,
-                        //     dbs: dbs,
-                        //     title: title,
-                        //     price: price,
-                        //     description: description,
-                        //     size: size,
-                        //     color: color,
-                        //     cubic: 'assets/cude/wheel4.gltf'));
 
                         Fluttertoast.showToast(msg: 'product created');
                         Navigator.pop(context);
