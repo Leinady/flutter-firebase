@@ -41,6 +41,8 @@ dependencies:
   file_picker: ^4.5.1
   flutter_stripe: ^2.4.0
   http: ^0.13.4
+  flutter_colorpicker: ^1.0.3
+  path_provider: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -68,9 +70,13 @@ flutter:
     - assets/cude/pistao_hidraulico.gltf
     - assets/icons/Trash.svg
     - assets/cude/toba.gltf
-  #  - assets/cude/wheel_color.obj
+    - assets/cude/spoiler.gltf
+    - assets/cude/Brake1.gltf
+    - assets/cude/Brake2.gltf
+    - assets/cude/wheel4.gltf
     - assets/cude/wheel_color.blend
-  #   - images/a_dot_ham.jpeg
+    # save file
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

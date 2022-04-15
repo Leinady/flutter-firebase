@@ -1,3 +1,4 @@
+import 'package:assign/models/Product.dart';
 import 'package:assign/models/user.dart';
 import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/route/cartprovider.dart';

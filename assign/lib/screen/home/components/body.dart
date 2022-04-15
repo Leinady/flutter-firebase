@@ -1,11 +1,22 @@
+import 'dart:io';
 import 'package:assign/models/Product.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/screen/detail/detail_screen.dart';
 import 'package:assign/screen/home/components/categories.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'items_card.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class Body extends StatefulWidget {
+  final Product product;
+  File newFiles;
+
+  Body({Key key, this.product, this.newFiles}) : super(key: key);
   @override
   State<Body> createState() => _BodyState();
 }
@@ -14,8 +25,20 @@ FirebaseAuth auth = FirebaseAuth.instance;
 bool abletoedit = false;
 
 class _BodyState extends State<Body> {
+  Color color = Colors.amber;
+  TextEditingController addtitleController = TextEditingController();
+  TextEditingController addpriceController = TextEditingController();
+  TextEditingController adddesController = TextEditingController();
+  TextEditingController addsizeController = TextEditingController();
+  TextEditingController adddbsController = TextEditingController();
+  TextEditingController addcolorController = TextEditingController();
+  TextEditingController addidController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    if (auth.currentUser.uid == 'vkUov6GLXoSe2HmWicQShB5mRmH3') {
+      abletoedit = true;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -31,6 +54,18 @@ class _BodyState extends State<Body> {
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
+            abletoedit
+                ? Consumer<ItemProvider>(builder: (context, provider, child) {
+                    return IconButton(
+                      onPressed: () {
+                        editproduct(widget.product);
+                        // provider.addproduct(widget.product);
+                      },
+                      icon: Icon(Icons.add_box),
+                      color: Colors.black,
+                    );
+                  })
+                : SizedBox(),
           ],
         ),
         Categories(),
@@ -60,5 +95,140 @@ class _BodyState extends State<Body> {
         ),
       ],
     );
+  }
+
+  Widget builcolor() => ColorPicker(
+      pickerColor: color,
+      enableAlpha: false,
+      onColorChanged: (color) => setState(() => this.color = color));
+
+  Future editproduct(Product product) async {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              backgroundColor: Color.fromARGB(255, 187, 251, 240),
+              title: Text('Add Product'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      controller: addidController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'category cannot be empty';
+                        }
+                      },
+                      decoration: InputDecoration(hintText: 'Product id'),
+                    ),
+                    TextFormField(
+                      controller: addtitleController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'category cannot be empty';
+                        }
+                      },
+                      decoration: InputDecoration(hintText: 'Product name'),
+                    ),
+                    TextFormField(
+                      controller: addpriceController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'category cannot be empty';
+                        }
+                      },
+                      decoration: InputDecoration(hintText: 'Product price'),
+                    ),
+                    TextFormField(
+                      controller: adddbsController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'category cannot be empty';
+                        }
+                      },
+                      decoration: InputDecoration(hintText: 'Product in stock'),
+                    ),
+                    TextFormField(
+                      controller: adddesController,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'category cannot be empty';
+                        }
+                      },
+                      decoration:
+                          InputDecoration(hintText: 'Product desrciption'),
+                    ),
+                    builcolor(),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                IconButton(
+                  onPressed: () async {
+                    final result = await FilePicker.platform.pickFiles();
+                    if (result == null) {
+                      print(result);
+                    }
+                    final file = result.files.first;
+                    print('Name:${file.name}');
+                    print('Path:${file.path}');
+
+                    widget.newFiles = await savefilePermanantly(file);
+                    print('Form Path: ${file.path}');
+                    print('To Path: ${widget.newFiles.path}');
+                  },
+                  icon: Icon(Icons.file_download),
+                ),
+                Consumer<ItemProvider>(builder: (context, provider, child) {
+                  return ElevatedButton(
+                      onPressed: () {
+                        print(adddesController.text);
+                        print(addidController.text);
+
+                        print(addtitleController.text);
+                        String title = addtitleController.text;
+                        String description = adddesController.text;
+                        try {
+                          int id = int.parse(addidController.text);
+                          print(id.toString());
+                        } on FormatException {
+                          print('Format err');
+                        }
+
+                        int price = int.parse(addpriceController.text);
+
+                        int dbs = int.parse(adddbsController.text);
+                        int size = int.parse(addsizeController.text);
+                        color = color;
+                        Object cubic = widget.newFiles.path;
+                        // provider.addproduct(Product(
+                        //     id: id,
+                        //     dbs: dbs,
+                        //     title: title,
+                        //     price: price,
+                        //     description: description,
+                        //     size: size,
+                        //     color: color,
+                        //     cubic: 'assets/cude/wheel4.gltf'));
+
+                        Fluttertoast.showToast(msg: 'product created');
+                        Navigator.pop(context);
+                      },
+                      child: Text('ADD'));
+                }),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('CANCEL')),
+              ],
+            ));
+  }
+
+  Future<File> savefilePermanantly(PlatformFile file) async {
+    final appStorage = await getApplicationDocumentsDirectory();
+    final newFile = File('${appStorage.path}/${file.name}');
+
+    return File(file.path).copy(newFile.path);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/parts/components/body.dart';
+import 'package:assign/screen/parts/components/bodyw.dart';
 import 'package:flutter/material.dart';
 
 import '../proflie/profile_screen.dart';
@@ -10,7 +11,7 @@ class WingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BodyS(),
+        body: BodyW(),
         appBar: AppBar(
           // title: Text('Home page'),
           backgroundColor: Colors.white,

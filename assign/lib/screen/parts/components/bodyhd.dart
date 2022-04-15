@@ -5,7 +5,7 @@ import 'package:assign/screen/home/components/items_card.dart';
 import 'package:assign/screen/home/components/items_card_fs.dart';
 import 'package:flutter/material.dart';
 
-class BodyW extends StatelessWidget {
+class BodyHd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,19 +28,19 @@ class BodyW extends StatelessWidget {
               horizontal: 20,
             ),
             child: GridView.builder(
-              itemCount: productw.length,
+              itemCount: producthd.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.75,
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 20),
               itemBuilder: (context, index) => ItemCard(
-                product: productw[index],
+                product: producthd[index],
                 press: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => DetailsScreen(
-                              product: productw[index],
+                              product: producthd[index],
                             ))),
               ),
             ),

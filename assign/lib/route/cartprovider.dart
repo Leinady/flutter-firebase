@@ -1,3 +1,4 @@
+import 'package:assign/models/Product.dart';
 import 'package:flutter/material.dart';
 
 class CartProvider extends ChangeNotifier {

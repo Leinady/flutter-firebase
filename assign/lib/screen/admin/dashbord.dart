@@ -266,6 +266,7 @@ class _AdminState extends State<Admin> {
               },
             ),
             Divider(),
+            Divider(),
             ListTile(
               leading: Icon(Icons.change_history),
               title: Text("Edit users"),
@@ -294,6 +295,7 @@ class _AdminState extends State<Admin> {
                     context, MaterialPageRoute(builder: (context) => Home()));
               },
             ),
+            Divider(),
             Divider(),
             ListTile(
               leading: Icon(Icons.logout),

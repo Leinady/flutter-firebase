@@ -59,7 +59,6 @@ class _ItemCardState extends State<ItemCard> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   widget.product.title,
@@ -76,25 +75,29 @@ class _ItemCardState extends State<ItemCard> {
                 SizedBox(
                   width: 10,
                 ),
-                Consumer<CartProvider>(builder: (context, provider, child) {
-                  return Text(
-                    '${provider.checkstock()} no.',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  );
-                }),
               ],
             ),
           ),
           abletoedit
-              ? IconButton(
-                  iconSize: 20.0,
-                  splashRadius: 20,
-                  onPressed: () {
-                    editproduct(widget.product);
-                  },
-                  icon: Icon(Icons.edit))
-              : false,
+              ? Row(
+                  children: [
+                    IconButton(
+                        iconSize: 20.0,
+                        splashRadius: 20,
+                        onPressed: () {
+                          editproduct(widget.product);
+                        },
+                        icon: Icon(Icons.edit)),
+                    Consumer<CartProvider>(builder: (context, provider, child) {
+                      return Text(
+                        '${widget.product.dbs} no.',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      );
+                    }),
+                  ],
+                )
+              : Container(),
           // Padding(
           //   padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
           //   child: Text(

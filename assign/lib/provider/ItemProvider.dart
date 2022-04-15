@@ -1,20 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:assign/models/Product.dart';
 import 'package:flutter/material.dart';
 
 class ItemProvider extends ChangeNotifier {
-  ItemProvider();
+  List<Product> items = [];
 
-  totalprice() {
-    FirebaseFirestore.instance
-        .collection('users')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        var a = (doc["first_name"]);
-      });
-    });
-
+  addproduct(Product item) {
+    final int idx = items.indexWhere((elem) => item.title == elem.title);
+    print(idx);
+    if (idx >= 0) {
+      print("product is stock");
+    } else {
+      items.add(item);
+    }
     notifyListeners();
   }
 }
