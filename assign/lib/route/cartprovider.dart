@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CartProvider extends ChangeNotifier {
   List<Productmod> items = [];
-
+  int idex = 0;
   addItem(Productmod item) {
     // provider.add( Product(name , price , qty ) )
     final int idx =
@@ -55,6 +55,13 @@ class CartProvider extends ChangeNotifier {
     });
     notifyListeners();
     return count;
+  }
+
+  int documentindex() {
+    idex++;
+    notifyListeners();
+
+    return idex;
   }
 }
 

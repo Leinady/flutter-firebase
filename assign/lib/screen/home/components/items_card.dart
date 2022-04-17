@@ -38,7 +38,7 @@ class _ItemCardState extends State<ItemCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            height: 160,
+            height: 150,
             width: 140,
             decoration: BoxDecoration(
                 color: widget.product.color,
@@ -57,7 +57,7 @@ class _ItemCardState extends State<ItemCard> {
             }),*/
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             child: Row(
               children: [
                 Text(

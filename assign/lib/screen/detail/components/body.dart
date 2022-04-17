@@ -6,6 +6,7 @@ import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/detail/components/Description.dart';
 import 'package:assign/screen/detail/components/productTitle_3d.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,9 @@ class Bodys extends StatefulWidget {
 
 class _BodysState extends State<Bodys> {
   Map<String, dynamic> paymentIntentData;
+  CollectionReference _basketCollection =
+      FirebaseFirestore.instance.collection("Basket");
+  final auth = FirebaseAuth.instance;
 
   int itemCount = 1;
   SizedBox buildOutlineButton({IconData icon, Function press}) {
@@ -157,24 +161,58 @@ class _BodysState extends State<Bodys> {
                               ),
                             ),
                             Expanded(
-                              child: SizedBox(
-                                height: 50,
-                                child: FlatButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18)),
-                                  color: widget.product.color,
-                                  onPressed: () async {
-                                    await makePayment();
-                                  },
-                                  child: Text(
-                                    "Buy".toUpperCase(),
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                              child: Consumer<CartProvider>(
+                                  builder: (context, provider, child) {
+                                return SizedBox(
+                                  height: 50,
+                                  child: FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18)),
+                                    color: widget.product.color,
+                                    onPressed: () async {
+                                      List proN = [];
+                                      provider.items.forEach((element) async {
+                                        // proN.add(element.productName);
+                                        proN.addAll(
+                                            [element.productName, element.qty]);
+                                      });
+
+                                      try {
+                                        final res = await _basketCollection
+                                            .doc(
+                                                'basket${provider.documentindex()}')
+                                            .set(
+                                          {
+                                            "Username": auth.currentUser.email,
+                                            "Total price":
+                                                provider.getTotalPrice(),
+                                            "Product name": proN,
+                                          },
+                                          SetOptions(merge: true),
+                                        );
+
+                                        await makePayment();
+                                        provider.checkstock();
+                                        print(proN);
+                                        print(provider.checkstock().toString());
+
+                                        Navigator.pop(context);
+                                      } catch (err) {
+                                        print('!!!!' + err);
+                                      }
+                                      await makePayment();
+                                    },
+                                    child: Text(
+                                      "Buy".toUpperCase(),
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
                                   ),
-                                ),
-                              ),
+                                );
+                              }),
                             ),
                           ],
                         ),

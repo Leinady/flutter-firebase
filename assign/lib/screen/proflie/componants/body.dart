@@ -1,5 +1,6 @@
 import 'package:assign/actions/action_auth.dart';
 import 'package:assign/screen/admin/editusers.dart';
+import 'package:assign/screen/proflie/componants/contact.dart';
 import 'package:assign/screen/proflie/componants/profile_picture.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,10 @@ class Bodyprof extends StatelessWidget {
           ProfileMenu(
             text: "Help Center",
             icon: "assets/icons/Question mark.svg",
-            press: () {},
+            press: () => {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ContactScreen()))
+            },
           ),
           ProfileMenu(
             text: "Log Out",

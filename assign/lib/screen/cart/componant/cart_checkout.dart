@@ -86,20 +86,21 @@ class CheckOut extends StatelessWidget {
                               });
 
                               try {
-                                int index = 0;
-
                                 final res = await _basketCollection
-                                    .doc('basket$index')
-                                    .set({
-                                  "Username": auth.currentUser.email,
-                                  "Total price": provider.getTotalPrice(),
-                                  "Product name": proN,
-                                });
+                                    .doc('basket${provider.documentindex()}')
+                                    .set(
+                                  {
+                                    "Username": auth.currentUser.email,
+                                    "Total price": provider.getTotalPrice(),
+                                    "Product name": proN,
+                                  },
+                                  SetOptions(merge: true),
+                                );
+
                                 await makePayment(provider.getTotalPrice());
                                 provider.checkstock();
                                 print(proN);
                                 print(provider.checkstock().toString());
-                                index++;
 
                                 Navigator.pop(context);
                               } catch (err) {

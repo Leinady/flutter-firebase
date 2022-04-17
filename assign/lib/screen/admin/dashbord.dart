@@ -254,19 +254,19 @@ class _AdminState extends State<Admin> {
       case Page.manage:
         return ListView(
           children: <Widget>[
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.add),
-              title: Text("Add product"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddproductScreen()));
-              },
-            ),
-            Divider(),
-            Divider(),
+            // Divider(),
+            // ListTile(
+            //   leading: Icon(Icons.add),
+            //   title: Text("Add product"),
+            //   onTap: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => AddproductScreen()));
+            //   },
+            // ),
+            // Divider(),
+            // Divider(),
             ListTile(
               leading: Icon(Icons.change_history),
               title: Text("Edit users"),

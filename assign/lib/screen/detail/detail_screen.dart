@@ -29,16 +29,16 @@ class DetailsScreen extends StatelessWidget {
         icon: Icon(Icons.arrow_back),
         color: Colors.black,
       ),
-      actions: <Widget>[
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.search),
-          color: Colors.black,
-        ),
-        SizedBox(
-          width: 10,
-        )
-      ],
+      // actions: <Widget>[
+      //   IconButton(
+      //     onPressed: () {},
+      //     icon: Icon(Icons.search),
+      //     color: Colors.black,
+      //   ),
+      //   SizedBox(
+      //     width: 10,
+      //   )
+      // ],
     );
   }
 }
