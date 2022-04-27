@@ -1,21 +1,15 @@
-import 'dart:math';
-
 import 'package:assign/actions/action_auth.dart';
+import 'package:assign/models/Product.dart';
 import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/screen/admin/adminscreen.dart';
-import 'package:assign/screen/admin/componant/addproduct.dart';
 import 'package:assign/screen/admin/componant/invoice.dart';
-import 'package:assign/screen/authen/sign_in.dart';
 import 'package:assign/screen/home/home.dart';
 import 'package:assign/service/storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-
-import '../../service/authserv.dart';
 
 enum Page { dashboard, manage }
 
@@ -74,6 +68,11 @@ class _AdminState extends State<Admin> {
   }
 
   Widget _loadScreen() {
+    int allproduct = (productw.length +
+        productex.length +
+        producthd.length +
+        products.length +
+        productex.length);
     final Storage storage = Storage();
     switch (_selectedPage) {
       case Page.dashboard:
@@ -191,7 +190,7 @@ class _AdminState extends State<Admin> {
                               icon: Icon(Icons.track_changes),
                               label: Text("Producs")),
                           subtitle: Text(
-                            '5',
+                            '$allproduct',
                             textAlign: TextAlign.center,
                             style: TextStyle(color: active, fontSize: 60.0),
                           )),

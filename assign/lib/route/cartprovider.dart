@@ -26,7 +26,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   int checkstock() {
-    int stock = 0;
+    int stock;
     items.forEach((element) {
       stock = element.qtyindb - element.qty;
     });

@@ -1,5 +1,6 @@
 //import 'dart:html';
 import 'package:assign/provider/ItemProvider.dart';
+import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/authen/sign_in.dart';
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/proflie/profile_screen.dart';
@@ -15,7 +16,10 @@ class Home extends StatelessWidget {
   //const home({Key key}) : super(key: key);
   final Product product;
 
-  Home({Key key, this.product}) : super(key: key);
+  Home({
+    Key key,
+    this.product,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

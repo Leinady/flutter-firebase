@@ -27,6 +27,13 @@ class Product extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  removeItem(Product item) {
+    final int idx = products.indexWhere((elem) => item == elem);
+    print(idx);
+    products.removeAt(idx);
+    notifyListeners();
+  }
 }
 
 List<Product> products = [

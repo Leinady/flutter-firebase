@@ -6,6 +6,7 @@ import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/cart/cart_screen.dart';
 import 'package:assign/screen/detail/components/Description.dart';
 import 'package:assign/screen/detail/components/productTitle_3d.dart';
+import 'package:assign/screen/home/components/body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -171,12 +172,10 @@ class _BodysState extends State<Bodys> {
                                             BorderRadius.circular(18)),
                                     color: widget.product.color,
                                     onPressed: () async {
-                                      List proN = [];
-                                      provider.items.forEach((element) async {
-                                        // proN.add(element.productName);
-                                        proN.addAll(
-                                            [element.productName, element.qty]);
-                                      });
+                                      final int sump =
+                                          widget.product.price * itemCount;
+
+                                      print(sump);
 
                                       try {
                                         final res = await _basketCollection
@@ -185,23 +184,22 @@ class _BodysState extends State<Bodys> {
                                             .set(
                                           {
                                             "Username": auth.currentUser.email,
-                                            "Total price":
-                                                provider.getTotalPrice(),
-                                            "Product name": proN,
+                                            "Total price": sump,
+                                            "Product name":
+                                                widget.product.title,
                                           },
                                           SetOptions(merge: true),
                                         );
 
-                                        await makePayment();
-                                        provider.checkstock();
-                                        print(proN);
-                                        print(provider.checkstock().toString());
+                                        await makePayment(sump);
+                                        setState(() {
+                                          widget.product.dbs -= itemCount;
+                                        });
 
                                         Navigator.pop(context);
                                       } catch (err) {
                                         print('!!!!' + err);
                                       }
-                                      await makePayment();
                                     },
                                     child: Text(
                                       "Buy".toUpperCase(),
@@ -229,12 +227,11 @@ class _BodysState extends State<Bodys> {
     );
   }
 
-  Future<void> makePayment() async {
+  Future<void> makePayment(int sump) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     try {
-      paymentIntentData =
-          await createPaymentIntent(widget.product.price.toString(), 'THB');
+      paymentIntentData = await createPaymentIntent(sump.toString(), 'THB');
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
               paymentIntentClientSecret: paymentIntentData["client_secret"],
@@ -243,7 +240,9 @@ class _BodysState extends State<Bodys> {
               testEnv: false,
               style: ThemeMode.dark,
               merchantCountryCode: 'TH',
-              merchantDisplayName: auth.currentUser.email));
+              billingDetails:
+                  BillingDetails(email: auth.currentUser.email.toString()),
+              merchantDisplayName: 'Test user'));
 
       ///now finally display payment sheeet
       displayPaymentSheet();
@@ -280,11 +279,14 @@ class _BodysState extends State<Bodys> {
 
 //  Future<Map<String, dynamic>>
   createPaymentIntent(String amount, String currency) async {
+    FirebaseAuth authen = FirebaseAuth.instance;
+    String emailuser = authen.currentUser.email.toString();
     try {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
         'currency': currency,
-        'payment_method_types[]': 'card'
+        'payment_method_types[]': 'card',
+        'description': emailuser
       };
       print(body);
       var response = await http.post(

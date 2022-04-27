@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:assign/models/Product.dart';
+import 'package:assign/route/cartprovider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/screen/detail/detail_screen.dart';
@@ -11,12 +12,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'items_card.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:open_file/open_file.dart';
 
 class Body extends StatefulWidget {
   final Product product;
+  final Productmod productmod;
   File newFiles;
 
-  Body({Key key, this.product, this.newFiles}) : super(key: key);
+  Body({Key key, this.product, this.newFiles, this.productmod})
+      : super(key: key);
   @override
   State<Body> createState() => _BodyState();
 }
@@ -203,15 +207,19 @@ class _BodyState extends State<Body> {
                           var size = int.parse(addsizeController.text);
                           color = color;
                           //Object cubic = widget.newFiles.path;
+                          Object cubic = widget.newFiles.path;
+                          print('print path #####' + cubic.toString());
                           provider.addproductwheel(Product(
-                              id: id,
-                              dbs: dbs,
-                              title: title,
-                              price: price,
-                              description: description,
-                              size: size,
-                              color: color,
-                              cubic: 'assets/cude/wheel4.gltf'));
+                            id: id,
+                            dbs: dbs,
+                            title: title,
+                            price: price,
+                            description: description,
+                            size: size,
+                            color: color,
+                            //cubic: 'assets/cude/wheel4.gltf'
+                            cubic: cubic.toString(),
+                          ));
                         } on FormatException {
                           print('Format err');
                         }

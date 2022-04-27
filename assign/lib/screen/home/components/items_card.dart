@@ -1,4 +1,5 @@
 import 'package:assign/models/Product.dart';
+import 'package:assign/provider/ItemProvider.dart';
 import 'package:assign/route/cartprovider.dart';
 import 'package:assign/screen/home/components/body.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,14 @@ import 'package:provider/provider.dart';
 
 class ItemCard extends StatefulWidget {
   final Product product;
+  final Productmod productmod;
   final Function press;
   const ItemCard({
     Key key,
     this.press,
     gridDelegate,
     this.product,
+    this.productmod,
   }) : super(key: key);
 
   @override
@@ -80,6 +83,7 @@ class _ItemCardState extends State<ItemCard> {
           ),
           abletoedit
               ? Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
                         iconSize: 20.0,
@@ -88,6 +92,15 @@ class _ItemCardState extends State<ItemCard> {
                           editproduct(widget.product);
                         },
                         icon: Icon(Icons.edit)),
+                    Consumer<Product>(builder: (context, provider, child) {
+                      return IconButton(
+                          iconSize: 20.0,
+                          splashRadius: 20,
+                          onPressed: () {
+                            provider.removeItem(widget.product);
+                          },
+                          icon: Icon(Icons.delete));
+                    }),
                     Consumer<CartProvider>(builder: (context, provider, child) {
                       return Text(
                         '${widget.product.dbs} no.',
@@ -97,7 +110,9 @@ class _ItemCardState extends State<ItemCard> {
                     }),
                   ],
                 )
-              : Container(),
+              : SizedBox(
+                  height: 1,
+                ),
           // Padding(
           //   padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
           //   child: Text(

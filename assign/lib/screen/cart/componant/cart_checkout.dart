@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class CheckOut extends StatelessWidget {
   final Product product;
+  final Productmod productmod;
   final Cart cart;
   final auth = FirebaseAuth.instance;
   final formKey = GlobalKey<FormState>();
@@ -21,6 +22,7 @@ class CheckOut extends StatelessWidget {
     Key key,
     this.cart,
     this.product,
+    this.productmod,
   }) : super(key: key);
 
   CollectionReference _basketCollection =
@@ -86,21 +88,21 @@ class CheckOut extends StatelessWidget {
                               });
 
                               try {
-                                final res = await _basketCollection
-                                    .doc('basket${provider.documentindex()}')
-                                    .set(
-                                  {
-                                    "Username": auth.currentUser.email,
-                                    "Total price": provider.getTotalPrice(),
-                                    "Product name": proN,
-                                  },
-                                  SetOptions(merge: true),
-                                );
+                                // final res = await _basketCollection
+                                //     .doc('basket${provider.documentindex()}')
+                                //     .set(
+                                //   {
+                                //     "Username": auth.currentUser.email,
+                                //     "Total price": provider.getTotalPrice(),
+                                //     "Product name": proN,
+                                //   },
+                                //   SetOptions(merge: true),
+                                // );
 
-                                await makePayment(provider.getTotalPrice());
-                                provider.checkstock();
+                                // await makePayment(provider.getTotalPrice());
+
                                 print(proN);
-                                print(provider.checkstock().toString());
+                                print(provider.checkstock());
 
                                 Navigator.pop(context);
                               } catch (err) {
@@ -134,7 +136,7 @@ class CheckOut extends StatelessWidget {
               testEnv: false,
               style: ThemeMode.dark,
               merchantCountryCode: 'TH',
-              merchantDisplayName: authm.currentUser.email.toString()));
+              merchantDisplayName: '${authm.currentUser.email}'));
 
       ///now finally display payment sheeet
       displayPaymentSheet();
@@ -174,6 +176,9 @@ class CheckOut extends StatelessWidget {
     String amt = double.parse(amount).toInt().toString();
     print('MMMMMMMMMM' + amt);
     print('MMMMMMMMMM' + currency);
+    FirebaseAuth authen = FirebaseAuth.instance;
+    String emailuser = authen.currentUser.email.toString();
+
     try {
       var headersList = {
         'Accept': '*/*',
@@ -187,7 +192,8 @@ class CheckOut extends StatelessWidget {
       var body = {
         'amount': calculateAmount(amt),
         'currency': currency,
-        'payment_method_types[]': 'card'
+        'payment_method_types[]': 'card',
+        'description': emailuser
       };
       var req = http.Request('POST', url);
       req.headers.addAll(headersList);
